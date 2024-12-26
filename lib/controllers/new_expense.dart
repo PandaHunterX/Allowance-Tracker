@@ -16,7 +16,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _formKey = GlobalKey<FormState>();
   var _enteredName = '';
   var _enteredExpense = 0.0;
-  var _selectedCategory = categories[Categories.food]!;
+  var _selectedCategory = expense_categories[ExpenseCategories.food]!;
 
   void _saveItem() async {
     if (_formKey.currentState!.validate()) {
@@ -91,7 +91,7 @@ class _NewExpenseState extends State<NewExpense> {
                     child: DropdownButtonFormField(
                       value: _selectedCategory,
                       items: [
-                        for (final category in categories.entries)
+                        for (final category in expense_categories.entries)
                           DropdownMenuItem(
                             value: category.value,
                             child: Row(children: [

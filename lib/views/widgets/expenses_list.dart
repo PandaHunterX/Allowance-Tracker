@@ -13,6 +13,7 @@ class ExpensesList extends StatefulWidget {
 
 class _ExpensesListState extends State<ExpensesList> {
   List<ExpenseItem> expenses = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -25,11 +26,16 @@ class _ExpensesListState extends State<ExpensesList> {
     final fetchedExpenses = await db.fetchAll();
     setState(() {
       expenses = fetchedExpenses;
+      _isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     final today = DateTime.now();
     final todayExpenses = expenses.where((item) {
       return item.dateTime.year == today.year &&
@@ -59,7 +65,7 @@ class ExpenseList extends StatelessWidget {
       child: Column(
         children: [
           Text(
-              "Total Expenses: Php ${todayExpenses.fold(0.0, (sum, item) => sum + item.expense)}"),
+              "Total Expenses: Php ${todayExpenses.fold(0.0, (sum, item) => sum + item.expense)}", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
           Expanded(
             child: ListView.builder(
               itemCount: todayExpenses.length,

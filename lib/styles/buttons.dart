@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomizeButton extends StatelessWidget {
-  const CustomizeButton({super.key});
+  final IconData icon;
+  final String text;
+  const CustomizeButton({super.key, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -10,19 +12,19 @@ class CustomizeButton extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.blue.shade800, width: 2),
           borderRadius: const BorderRadius.all(Radius.circular(32))),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.add,
+            icon,
             size: 40,
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Text(
-            'Add New Expenses',
-            style: TextStyle(
+            text,
+            style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic),

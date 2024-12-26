@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Categories {
+enum ExpenseCategories {
   food,
   transportation,
   entertainment,
@@ -13,8 +13,25 @@ enum Categories {
   others,
 }
 
-class Category {
-  const Category(this.title, this.icon);
+class ExpenseCategory {
+  const ExpenseCategory(this.title, this.icon);
+
+  final String title;
+  final Icon icon;
+}
+
+enum AllowanceCategories {
+  salary,
+  gifts,
+  scholarship,
+  businessProfit,
+  familySupport,
+  governmentAid,
+  others,
+}
+
+class AllowanceCategory {
+  AllowanceCategory(this.title, this.icon);
 
   final String title;
   final Icon icon;

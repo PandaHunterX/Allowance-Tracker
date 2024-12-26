@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/views/screens/graph_screen.dart';
 import 'package:productivity_app/views/screens/home_screen.dart';
-import 'package:productivity_app/views/screens/user_screen.dart';
+import 'package:productivity_app/views/users/user_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -65,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
             },
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.auto_graph), label: 'Chart'),
+              BottomNavigationBarItem(icon: Icon(Icons.auto_graph), label: 'Stats'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
             ],
           ),

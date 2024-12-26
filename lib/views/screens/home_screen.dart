@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
-              child: const CustomizeButton(),
+              child: const CustomizeButton(text: 'Add New Expense', icon: Icons.add,),
             ),
             const SizedBox(height: 32),
             Container(
@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 30),
               ),
             ),
+            const SizedBox(height: 8,),
             ExpensesList(key: UniqueKey()),
           ],
         ),

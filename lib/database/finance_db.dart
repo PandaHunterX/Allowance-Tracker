@@ -25,7 +25,7 @@ class FinanceDB {
   Future<int> create(
       {required String name,
         required double expense,
-        required Category category}) async {
+        required ExpenseCategory category}) async {
     final database = await DatabaseService().database;
 
     return await database.rawInsert(
@@ -49,7 +49,7 @@ class FinanceDB {
       return ExpenseItem(
         name: maps[i]['name'],
         expense: maps[i]['expense'],
-        category: categories.entries
+        category: expense_categories.entries
             .firstWhere((entry) => entry.value.title == maps[i]['category'])
             .value,
         dateTime: DateTime.parse(maps[i]['date_time']),

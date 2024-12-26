@@ -8,7 +8,7 @@ class ExpenseItem {
   final String id;
   final String name;
   final double expense;
-  final Category category;
+  final ExpenseCategory category;
   final DateTime dateTime;
 
 
