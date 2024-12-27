@@ -22,7 +22,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final db = FinanceDB();
-      await db.create(
+      await db.createExpenses(
         name: _enteredName,
         expense: _enteredExpense,
         category: _selectedCategory,

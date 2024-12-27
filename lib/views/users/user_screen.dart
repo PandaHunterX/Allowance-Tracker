@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:productivity_app/controllers/new_allowance.dart';
 import 'package:productivity_app/controllers/settings.dart';
 import 'package:productivity_app/styles/buttons.dart';
+import 'package:productivity_app/views/widgets/allowance_list.dart';
 
 import '../widgets/profile_picture.dart';
 
@@ -50,7 +51,35 @@ class UserScreen extends StatelessWidget {
             height: 24,
           ),
           const Text('Your Allowance: '),
-
+          const SizedBox(
+            height: 24,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => const NewAllowance()));
+            },
+            child: Container(
+              width: 200,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(60)),
+                  border: Border.all(width: 4, color: Colors.blue.shade600)),
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: Colors.blue,
+                    size: 36,
+                  ),
+                  Text(
+                    'Add Allowance',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          AllowancesList(key: UniqueKey(),)
         ],
       ),
     );

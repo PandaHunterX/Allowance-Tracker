@@ -23,7 +23,7 @@ class _ExpensesListState extends State<ExpensesList> {
 
   Future<void> _fetchExpenses() async {
     final db = FinanceDB();
-    final fetchedExpenses = await db.fetchAll();
+    final fetchedExpenses = await db.fetchExpense();
     setState(() {
       expenses = fetchedExpenses;
       _isLoading = false;
@@ -70,23 +70,29 @@ class ExpenseList extends StatelessWidget {
             child: ListView.builder(
               itemCount: todayExpenses.length,
               itemBuilder: (ctx, index) => ListTile(
-                title: Row(
+                title: Column(
                   children: [
-                    todayExpenses[index].category.icon,
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(todayExpenses[index].name),
+                        todayExpenses[index].category.icon,
                         const SizedBox(
-                          width: 4,
+                          width: 8,
                         ),
-                        Text(DateFormat.Hms()
-                            .format(todayExpenses[index].dateTime))
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(todayExpenses[index].name),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(DateFormat.Hms()
+                                .format(todayExpenses[index].dateTime))
+                          ],
+                        ),
                       ],
                     ),
+                    const SizedBox(height: 8,),
+                    Divider(height: 2, thickness: 2, color: Colors.blue.shade800,)
                   ],
                 ),
                 trailing: Text(

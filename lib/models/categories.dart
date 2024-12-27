@@ -20,6 +20,6 @@ var allowance_categories = {
   AllowanceCategories.scholarship: AllowanceCategory('Scholarship', const Icon(Icons.school)),
   AllowanceCategories.businessProfit: AllowanceCategory('Business', const Icon(Icons.business)),
   AllowanceCategories.familySupport: AllowanceCategory('Family Support', const Icon(Icons.diversity_3)),
-  AllowanceCategories.governmentAid: AllowanceCategory('Salary', const Icon(Icons.account_balance)),
-  AllowanceCategories.others: AllowanceCategory('Salary', const Icon(Icons.not_listed_location)),
+  AllowanceCategories.governmentAid: AllowanceCategory('Government Aid', const Icon(Icons.account_balance)),
+  AllowanceCategories.others: AllowanceCategory('Others', const Icon(Icons.not_listed_location)),
 };
