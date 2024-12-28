@@ -19,16 +19,37 @@ class _NewExpenseState extends State<NewExpense> {
   var _selectedCategory = expense_categories[ExpenseCategories.food]!;
 
   void _saveItem() async {
+    final db = FinanceDB();
+    final fetchUser = await db.fetchUser();
+    var user = fetchUser;
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final db = FinanceDB();
-      await db.createExpenses(
-        name: _enteredName,
-        expense: _enteredExpense,
-        category: _selectedCategory,
-      );
-      widget.onExpenseAdded();
-      Navigator.of(context).pop();
+      if (user.allowance < _enteredExpense) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Insufficient Allowance'),
+            content: const Text("You don't have enough allowance"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Ok'))
+            ],
+          ),
+        );
+      } else {
+        await db.createExpenses(
+          name: _enteredName,
+          expense: _enteredExpense,
+          category: _selectedCategory,
+        );
+        await db.updateAllowance(user.allowance - _enteredExpense);
+        widget.onExpenseAdded();
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+      }
     }
   }
 
@@ -68,6 +89,7 @@ class _NewExpenseState extends State<NewExpense> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
                       maxLength: 6,
                       decoration: const InputDecoration(label: Text('Expense')),
                       validator: (value) {

@@ -5,10 +5,20 @@ import 'package:productivity_app/styles/buttons.dart';
 import 'package:productivity_app/views/widgets/allowance_list.dart';
 
 import '../widgets/profile_picture.dart';
+import '../widgets/username.dart';
 
-class UserScreen extends StatelessWidget {
+class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
 
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  void _refresh(){
+    setState(() {
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,10 +32,7 @@ class UserScreen extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const Text(
-            'Username',
-            style: TextStyle(fontSize: 32),
-          ),
+          const Username(),
           const SizedBox(
             height: 8,
           ),
@@ -50,14 +57,10 @@ class UserScreen extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          const Text('Your Allowance: '),
-          const SizedBox(
-            height: 24,
-          ),
           InkWell(
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => const NewAllowance()));
+                  MaterialPageRoute(builder: (ctx) => NewAllowance(onAllowanceAdded: _refresh,)));
             },
             child: Container(
               width: 200,

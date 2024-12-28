@@ -30,5 +30,6 @@ class DatabaseService {
     return database;
   }
 
-  Future<void> create(Database database, int version) async => await FinanceDB().createTable(database);
+  Future<void> create(Database database, int version) async =>
+      await FinanceDB().createTable(database);
 }

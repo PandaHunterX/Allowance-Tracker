@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:productivity_app/controllers/new_expense.dart';
 import 'package:productivity_app/styles/buttons.dart';
 import 'package:productivity_app/views/widgets/expenses_list.dart';
+import 'package:productivity_app/views/widgets/user_allowance.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void _refreshExpenses() {
+  void _refresh() {
     setState(() {});
   }
 
@@ -47,10 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           width: 8,
                         ),
-                        const Text(
-                          'Php 1000',
-                          style: TextStyle(fontSize: 24),
-                        )
+                        UserAllowance(key: UniqueKey(),),
                       ],
                     )
                   ],
@@ -62,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => NewExpense(onExpenseAdded: _refreshExpenses),
+                    builder: (ctx) => NewExpense(onExpenseAdded: _refresh),
                   ),
                 );
               },

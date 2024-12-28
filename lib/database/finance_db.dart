@@ -1,5 +1,6 @@
 import 'package:productivity_app/database/database_service.dart';
 import 'package:productivity_app/models/allowance_item.dart';
+import 'package:productivity_app/models/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,8 +13,16 @@ const uuid = Uuid();
 class FinanceDB {
   final expenseTable = 'expenses';
   final allowanceTable = 'allowances';
+  final userTable = 'user';
 
   Future<void> createTable(Database database) async {
+    await database.execute("""CREATE TABLE IF NOT EXISTS $userTable (
+    "id" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "allowance" REAL NOT NULL,
+    PRIMARY KEY ("id")
+    );""");
+
     await database.execute("""CREATE TABLE IF NOT EXISTS $expenseTable (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -31,6 +40,8 @@ class FinanceDB {
     "date_time" TEXT,
     PRIMARY KEY("id")
     );""");
+
+    await database.execute("""INSERT INTO $userTable (id, username, allowance) VALUES ('1', 'Username', 0.0)""");
   }
 
   Future<int> createExpenses(
@@ -67,6 +78,20 @@ class FinanceDB {
           category.title,
           DateTime.now().toIso8601String(),
         ]);
+  }
+
+  Future<User> fetchUser() async {
+    final database = await DatabaseService().database;
+    final List<Map<String, dynamic>> db = await database.query(userTable);
+    final user = db.first;
+
+    return User(username: user['username'], allowance: user['allowance']);
+  }
+
+  Future<int> updateAllowance(double allowance) async {
+    final database = await DatabaseService().database;
+    return await database.update(userTable, {'allowance': allowance},
+        where: 'id = ?', whereArgs: ['1']);
   }
 
   Future<List<ExpenseItem>> fetchExpense() async {

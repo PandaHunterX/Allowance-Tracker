@@ -4,7 +4,9 @@ import 'package:productivity_app/models/categories.dart';
 import 'package:productivity_app/models/category.dart';
 
 class NewAllowance extends StatefulWidget {
-  const NewAllowance({super.key});
+  final VoidCallback onAllowanceAdded;
+
+  const NewAllowance({super.key, required this.onAllowanceAdded});
 
   @override
   State<NewAllowance> createState() => _NewAllowanceState();
@@ -17,16 +19,22 @@ class _NewAllowanceState extends State<NewAllowance> {
   var _selectedCategory = allowance_categories[AllowanceCategories.salary]!;
 
   void _saveItem() async {
+    final db = FinanceDB();
+    final fetchUser = await db.fetchUser();
+    var user = fetchUser;
+
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      final db = FinanceDB();
       await db.createAllowance(
           description: _enteredDescription,
           amount: _enteredAmount,
           category: _selectedCategory
       );
-      print(_enteredAmount);
-      print(_enteredDescription);
+      await db.updateAllowance(user.allowance + _enteredAmount);
+      widget.onAllowanceAdded();
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
