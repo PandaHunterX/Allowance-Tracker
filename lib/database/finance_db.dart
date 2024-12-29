@@ -94,6 +94,12 @@ class FinanceDB {
         where: 'id = ?', whereArgs: ['1']);
   }
 
+  Future<int> updateUsername(String username) async {
+    final database = await DatabaseService().database;
+    return await database.update(userTable, {'username': username},
+        where: 'id = ?', whereArgs: ['1']);
+  }
+
   Future<List<ExpenseItem>> fetchExpense() async {
     final database = await DatabaseService().database;
     final List<Map<String, dynamic>> maps = await database.query(expenseTable);

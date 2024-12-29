@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:productivity_app/views/widgets/profile_picture.dart';
+import 'package:productivity_app/views/widgets/username.dart';
+import 'package:productivity_app/views/widgets/username_form.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({super.key});
+  final VoidCallback onUsernameChanged;
+
+  const Settings({super.key, required this.onUsernameChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +64,7 @@ class Settings extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Name: Username",
-                style: TextStyle(fontSize: 24),
-              ),
+              Username(key: UniqueKey(),),
               const SizedBox(
                 width: 16,
               ),
@@ -79,7 +80,12 @@ class Settings extends StatelessWidget {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: (context),
+                    builder: (context) => UsernameForm(onUsernameChanged: onUsernameChanged,)
+                  );
+                },
               ),
             ],
           ),

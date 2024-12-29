@@ -32,14 +32,14 @@ class _UserScreenState extends State<UserScreen> {
           const SizedBox(
             height: 8,
           ),
-          const Username(),
+          Username(key: UniqueKey(),),
           const SizedBox(
             height: 8,
           ),
           InkWell(
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => const Settings()));
+                  .push(MaterialPageRoute(builder: (ctx) =>  Settings(onUsernameChanged: _refresh,)));
             },
             child: const CustomizeButton(
               text: 'Settings',

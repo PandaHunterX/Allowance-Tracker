@@ -45,7 +45,7 @@ class _ExpensesListState extends State<ExpensesList> {
 
     var content = (todayExpenses.isNotEmpty)
         ? ExpenseList(todayExpenses: todayExpenses)
-        : const EmptyList();
+        : const ExpenseEmptyList();
 
     return content;
   }

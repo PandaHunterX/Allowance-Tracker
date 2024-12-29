@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/allowance_item.dart';
+import 'package:productivity_app/views/widgets/empty_list.dart';
 
 class AllowancesList extends StatefulWidget {
   const AllowancesList({super.key});
@@ -31,8 +32,11 @@ class _AllowancesListState extends State<AllowancesList> {
 
   @override
   Widget build(BuildContext context) {
+    if(_isLoading){
+      return const Center(child: CircularProgressIndicator());
+    }
 
-    var content = (allowances.isNotEmpty) ? AllowanceList(allowances: allowances,) : const Text('data');
+    var content = (allowances.isNotEmpty) ? AllowanceList(allowances: allowances,) : const AllowanceEmptyList();
 
     return content;
   }
@@ -45,30 +49,32 @@ class AllowanceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final recentAllowances = allowances.toList()..sort((a,b) => b.dateTime.compareTo(a.dateTime));
+
     return Expanded(
       child: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: allowances.length,
+              itemCount: 3,
               itemBuilder: (ctx, index) => ListTile(
                 title: Column(
                   children: [
                     Row(
                       children: [
-                        allowances[index].category.icon,
+                        recentAllowances[index].category.icon,
                         const SizedBox(
                           width: 8,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(allowances[index].description),
+                            Text(recentAllowances[index].description),
                             const SizedBox(
                               width: 4,
                             ),
                             Text(DateFormat.Hms()
-                                .format(allowances[index].dateTime))
+                                .format(recentAllowances[index].dateTime))
                           ],
                         ),
                       ],
@@ -78,7 +84,7 @@ class AllowanceList extends StatelessWidget {
                   ],
                 ),
                 trailing: Text(
-                  "Php ${allowances[index].amount}",
+                  "Php ${recentAllowances[index].amount}",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
