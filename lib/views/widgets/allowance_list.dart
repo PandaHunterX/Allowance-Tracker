@@ -56,7 +56,7 @@ class AllowanceList extends StatelessWidget {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: recentAllowances.length < 3 ? recentAllowances.length : 3,
               itemBuilder: (ctx, index) => ListTile(
                 title: Column(
                   children: [

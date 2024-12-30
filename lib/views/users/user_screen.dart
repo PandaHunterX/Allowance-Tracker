@@ -26,8 +26,8 @@ class _UserScreenState extends State<UserScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Center(
-            child: ProfilePicture(),
+          Center(
+            child: ProfilePicture(key: UniqueKey(),),
           ),
           const SizedBox(
             height: 8,
@@ -39,7 +39,7 @@ class _UserScreenState extends State<UserScreen> {
           InkWell(
             onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) =>  Settings(onUsernameChanged: _refresh,)));
+                  .push(MaterialPageRoute(builder: (ctx) =>  Settings(refreshed: _refresh,)));
             },
             child: const CustomizeButton(
               text: 'Settings',

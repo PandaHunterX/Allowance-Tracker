@@ -125,7 +125,7 @@ class _NewAllowanceState extends State<NewAllowance> {
                 ),
                 ElevatedButton(
                   onPressed: _saveItem,
-                  child: const Text('Add Expense'),
+                  child: const Text('Add Allowance'),
                 )
               ],
             ),

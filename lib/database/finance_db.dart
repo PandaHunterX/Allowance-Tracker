@@ -19,6 +19,7 @@ class FinanceDB {
     await database.execute("""CREATE TABLE IF NOT EXISTS $userTable (
     "id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
+    "avatar" TEXT NOT NULL,
     "allowance" REAL NOT NULL,
     PRIMARY KEY ("id")
     );""");
@@ -41,7 +42,7 @@ class FinanceDB {
     PRIMARY KEY("id")
     );""");
 
-    await database.execute("""INSERT INTO $userTable (id, username, allowance) VALUES ('1', 'Username', 0.0)""");
+    await database.execute("""INSERT INTO $userTable (id, username, avatar, allowance) VALUES ('1', 'Username', "assets/svg/man1.svg", 0.0)""");
   }
 
   Future<int> createExpenses(
@@ -85,7 +86,7 @@ class FinanceDB {
     final List<Map<String, dynamic>> db = await database.query(userTable);
     final user = db.first;
 
-    return User(username: user['username'], allowance: user['allowance']);
+    return User(username: user['username'], allowance: user['allowance'], avatar: user['avatar']);
   }
 
   Future<int> updateAllowance(double allowance) async {
@@ -98,6 +99,11 @@ class FinanceDB {
     final database = await DatabaseService().database;
     return await database.update(userTable, {'username': username},
         where: 'id = ?', whereArgs: ['1']);
+  }
+
+  Future<int> updateAvatar(String avatar) async {
+    final database = await DatabaseService().database;
+    return await database.update(userTable, {'avatar': avatar},where: 'id = ?', whereArgs: ['1']);
   }
 
   Future<List<ExpenseItem>> fetchExpense() async {

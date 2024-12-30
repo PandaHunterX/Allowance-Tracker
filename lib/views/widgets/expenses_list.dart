@@ -68,7 +68,6 @@ class ExpenseList extends StatelessWidget {
               "Total Expenses: Php ${todayExpenses.fold(0.0, (sum, item) => sum + item.expense)}", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
           Expanded(
             child: ListView.builder(
-              reverse: true,
               itemCount: todayExpenses.length,
               itemBuilder: (ctx, index) => ListTile(
                 title: Column(

@@ -3,8 +3,9 @@ import 'package:productivity_app/database/finance_db.dart';
 
 class UsernameForm extends StatefulWidget {
   final VoidCallback onUsernameChanged;
+  final VoidCallback refreshed;
 
-  const UsernameForm({super.key, required this.onUsernameChanged});
+  const UsernameForm({super.key, required this.onUsernameChanged, required this.refreshed});
 
   @override
   State<UsernameForm> createState() => _UsernameFormState();
@@ -21,6 +22,7 @@ class _UsernameFormState extends State<UsernameForm> {
       _formKey.currentState!.save();
       await db.updateUsername(_enteredUsername);
       widget.onUsernameChanged();
+      widget.refreshed();
       if (mounted){
         Navigator.pop(context);
       }

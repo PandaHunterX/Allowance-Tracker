@@ -2,12 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:productivity_app/views/widgets/profile_picture.dart';
 import 'package:productivity_app/views/widgets/username.dart';
-import 'package:productivity_app/views/widgets/username_form.dart';
+import 'package:productivity_app/controllers/username_form.dart';
 
-class Settings extends StatelessWidget {
-  final VoidCallback onUsernameChanged;
+import 'changed_profile.dart';
 
-  const Settings({super.key, required this.onUsernameChanged});
+class Settings extends StatefulWidget {
+  final VoidCallback refreshed;
+
+  const Settings({super.key, required this.refreshed});
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  void refresh() {
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +49,7 @@ class Settings extends StatelessWidget {
               height: 220,
               child: Stack(
                 children: [
-                  const ProfilePicture(),
+                  ProfilePicture(key: UniqueKey(),),
                   Container(
                     alignment: Alignment.bottomRight,
                     child: InkWell(
@@ -51,7 +64,14 @@ class Settings extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return ChangeProfile(changed_profile: widget.refreshed, refreshed: refresh,);
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -64,7 +84,12 @@ class Settings extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Username(key: UniqueKey(),),
+              Row(
+                children: [
+                  const Text('Username: ',style: TextStyle(fontSize: 32),),
+                  Username(key: UniqueKey(),),
+                ],
+              ),
               const SizedBox(
                 width: 16,
               ),
@@ -83,7 +108,7 @@ class Settings extends StatelessWidget {
                 onTap: () {
                   showDialog(
                     context: (context),
-                    builder: (context) => UsernameForm(onUsernameChanged: onUsernameChanged,)
+                    builder: (context) => UsernameForm(onUsernameChanged: widget.refreshed, refreshed: refresh,)
                   );
                 },
               ),
@@ -105,3 +130,5 @@ class Settings extends StatelessWidget {
     );
   }
 }
+
+
