@@ -28,6 +28,12 @@ class _UserAllowanceState extends State<UserAllowance> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(user?.allowance.toString() ?? 'Loading');
+    return Row(
+      children: [
+        Text(user?.currency ?? 'Loading'),
+        const SizedBox(width: 8,),
+        Text(user?.allowance.toString() ?? 'Loading'),
+      ],
+    );
   }
 }

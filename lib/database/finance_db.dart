@@ -20,6 +20,7 @@ class FinanceDB {
     "id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "avatar" TEXT NOT NULL,
+    "currency" TEXT NOT NULL,
     "allowance" REAL NOT NULL,
     PRIMARY KEY ("id")
     );""");
@@ -42,7 +43,8 @@ class FinanceDB {
     PRIMARY KEY("id")
     );""");
 
-    await database.execute("""INSERT INTO $userTable (id, username, avatar, allowance) VALUES ('1', 'Username', "assets/svg/man1.svg", 0.0)""");
+    await database.execute(
+        """INSERT INTO $userTable (id, username, avatar, currency, allowance) VALUES ('1', 'Username', '₱', "assets/svg/man1.svg", 0.0)""");
   }
 
   Future<int> createExpenses(
@@ -86,7 +88,12 @@ class FinanceDB {
     final List<Map<String, dynamic>> db = await database.query(userTable);
     final user = db.first;
 
-    return User(username: user['username'], allowance: user['allowance'], avatar: user['avatar']);
+    return User(
+      username: user['username'],
+      allowance: user['allowance'],
+      avatar: user['avatar'],
+      currency: user['currency']
+    );
   }
 
   Future<int> updateAllowance(double allowance) async {
@@ -103,7 +110,13 @@ class FinanceDB {
 
   Future<int> updateAvatar(String avatar) async {
     final database = await DatabaseService().database;
-    return await database.update(userTable, {'avatar': avatar},where: 'id = ?', whereArgs: ['1']);
+    return await database.update(userTable, {'avatar': avatar},
+        where: 'id = ?', whereArgs: ['1']);
+  }
+
+  Future<int> updateCurrency(String currency) async {
+    final database = await DatabaseService().database;
+    return await database.update(userTable, {'currency': currency});
   }
 
   Future<List<ExpenseItem>> fetchExpense() async {
