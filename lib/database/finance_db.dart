@@ -44,7 +44,7 @@ class FinanceDB {
     );""");
 
     await database.execute(
-        """INSERT INTO $userTable (id, username, avatar, currency, allowance) VALUES ('1', 'Username', '₱', "assets/svg/man1.svg", 0.0)""");
+        """INSERT INTO $userTable (id, username, avatar, currency, allowance) VALUES ('1', 'Username', "assets/svg/man1.svg", '₱',  0.0)""");
   }
 
   Future<int> createExpenses(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivity_app/controllers/new_allowance.dart';
-import 'package:productivity_app/controllers/settings.dart';
+import 'package:productivity_app/views/screens/settings.dart';
 import 'package:productivity_app/styles/buttons.dart';
 import 'package:productivity_app/views/widgets/allowance_list.dart';
 

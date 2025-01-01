@@ -16,6 +16,8 @@ class _NewExpenseState extends State<NewExpense> {
   final _formKey = GlobalKey<FormState>();
   var _enteredName = '';
   var _enteredExpense = 0.0;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController expenseController = TextEditingController();
   var _selectedCategory = expense_categories[ExpenseCategories.food]!;
 
   void _saveItem() async {
@@ -54,6 +56,13 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   @override
+  void dispose() {
+    nameController.dispose();
+    expenseController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -66,6 +75,7 @@ class _NewExpenseState extends State<NewExpense> {
           child: Column(
             children: [
               TextFormField(
+                controller: nameController,
                 maxLength: 50,
                 decoration: const InputDecoration(label: Text('Name')),
                 validator: (value) {
@@ -89,6 +99,7 @@ class _NewExpenseState extends State<NewExpense> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: expenseController,
                       keyboardType: TextInputType.number,
                       maxLength: 6,
                       decoration: const InputDecoration(label: Text('Expense')),

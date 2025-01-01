@@ -14,6 +14,7 @@ class UsernameForm extends StatefulWidget {
 class _UsernameFormState extends State<UsernameForm> {
   final _formKey = GlobalKey<FormState>();
   var _enteredUsername = '';
+  final TextEditingController usernameController = TextEditingController();
 
   void _submitUsername() async{
     final db = FinanceDB();
@@ -30,12 +31,19 @@ class _UsernameFormState extends State<UsernameForm> {
   }
 
   @override
+  void dispose() {
+    usernameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Change Username'),
       content: Form(
         key: _formKey,
         child: TextFormField(
+          controller: usernameController,
           maxLength: 30,
           validator: (value) {
             if (value == null ||

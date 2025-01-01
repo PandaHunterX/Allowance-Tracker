@@ -14,8 +14,10 @@ class NewAllowance extends StatefulWidget {
 
 class _NewAllowanceState extends State<NewAllowance> {
   final _formKey = GlobalKey<FormState>();
-  var _enteredDescription = '';
-  var _enteredAmount = 0.0;
+  String _enteredDescription = '';
+  double _enteredAmount = 0.0;
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
   var _selectedCategory = allowance_categories[AllowanceCategories.salary]!;
 
   void _saveItem() async {
@@ -28,14 +30,21 @@ class _NewAllowanceState extends State<NewAllowance> {
       await db.createAllowance(
           description: _enteredDescription,
           amount: _enteredAmount,
-          category: _selectedCategory
-      );
-      await db.updateAllowance(user.allowance + _enteredAmount);
+          category: _selectedCategory);
+      await db
+          .updateAllowance(user.allowance + double.parse(amountController.text));
       widget.onAllowanceAdded();
       if (mounted) {
         Navigator.of(context).pop();
       }
     }
+  }
+
+  @override
+  void dispose(){
+    descriptionController.dispose();
+    amountController.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,17 +58,14 @@ class _NewAllowanceState extends State<NewAllowance> {
         child: Column(
           children: [
             TextFormField(
+              controller: descriptionController,
               maxLength: 50,
               decoration: const InputDecoration(label: Text('Description')),
               validator: (value) {
                 if (value == null ||
                     value.isEmpty ||
-                    value
-                        .trim()
-                        .length <= 1 ||
-                    value
-                        .trim()
-                        .length > 50) {
+                    value.trim().length <= 1 ||
+                    value.trim().length > 50) {
                   return 'Must be between 1 and 50 characters';
                 }
                 return null;
@@ -72,6 +78,7 @@ class _NewAllowanceState extends State<NewAllowance> {
               height: 16,
             ),
             TextFormField(
+              controller: amountController,
               keyboardType: TextInputType.number,
               maxLength: 8,
               decoration: const InputDecoration(label: Text('Amount')),
