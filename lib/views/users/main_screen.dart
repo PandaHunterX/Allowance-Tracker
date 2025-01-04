@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/views/screens/graph_screen.dart';
+import 'package:productivity_app/views/widgets/bar_graph.dart';
 import 'package:productivity_app/views/screens/home_screen.dart';
 import 'package:productivity_app/views/users/user_screen.dart';
+
+import '../screens/graph_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -15,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    GraphScreen(),
+    const GraphScreen(),
     const UserScreen()
   ];
 
