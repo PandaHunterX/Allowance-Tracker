@@ -99,13 +99,12 @@ class BarGraphScreenState extends State<BarGraphScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const SizedBox(
-                          width: 38,
-                        ),
                         const Text(
-                          'Weekly Data',
+                          textAlign: TextAlign.center,
+                          'Your Weekly Data',
                           style: TextStyle(color: Colors.black, fontSize: 22),
                         ),
                       ],

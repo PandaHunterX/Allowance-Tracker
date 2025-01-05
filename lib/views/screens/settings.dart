@@ -18,9 +18,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   void refresh() {
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -39,18 +37,16 @@ class _SettingsState extends State<Settings> {
               color: Colors.white),
         ),
       ),
-      body: Column(
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
         children: [
-          const SizedBox(
-            height: 16,
-          ),
           Center(
             child: SizedBox(
               width: 220,
               height: 220,
               child: Stack(
                 children: [
-                  ProfilePicture(key: UniqueKey(),),
+                  ProfilePicture(key: UniqueKey()),
                   Container(
                     alignment: Alignment.bottomRight,
                     child: InkWell(
@@ -69,7 +65,10 @@ class _SettingsState extends State<Settings> {
                         showDialog<void>(
                           context: context,
                           builder: (BuildContext dialogContext) {
-                            return ChangeProfile(changed_profile: widget.refreshed, refreshed: refresh,);
+                            return ChangeProfile(
+                              changed_profile: widget.refreshed,
+                              refreshed: refresh,
+                            );
                           },
                         );
                       },
@@ -79,21 +78,13 @@ class _SettingsState extends State<Settings> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 32,
-          ),
+          const SizedBox(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  const Text('Username: ',style: TextStyle(fontSize: 32),),
-                  Username(key: UniqueKey(),),
-                ],
-              ),
-              const SizedBox(
-                width: 16,
-              ),
+              const Text('Username: ', style: TextStyle(fontSize: 32)),
+              Username(key: UniqueKey()),
+              const SizedBox(width: 16),
               InkWell(
                 child: CircleAvatar(
                   radius: 20,
@@ -108,25 +99,24 @@ class _SettingsState extends State<Settings> {
                 ),
                 onTap: () {
                   showDialog(
-                    context: (context),
-                    builder: (context) => UsernameForm(onUsernameChanged: widget.refreshed, refreshed: refresh,)
+                    context: context,
+                    builder: (context) => UsernameForm(
+                      onUsernameChanged: widget.refreshed,
+                      refreshed: refresh,
+                    ),
                   );
                 },
               ),
             ],
           ),
-          const SizedBox(
-            height: 32,
-          ),
+          const SizedBox(height: 32),
           Divider(
             height: 4,
             thickness: 4,
             color: Colors.blue.shade500,
           ),
-          const SizedBox(
-            height: 32,
-          ),
-          const CurrencyDropdown()
+          const SizedBox(height: 32),
+          const CurrencyDropdown(),
         ],
       ),
     );

@@ -8,13 +8,11 @@ class GraphScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Expanded(
-        child: Column(
-          children: [
-            BarGraphScreen(),
-            PieGraph(),
-          ],
-        ),
+      child: Column(
+        children: [
+          BarGraphScreen(),
+          PieGraph(),
+        ],
       ),
     );
   }
