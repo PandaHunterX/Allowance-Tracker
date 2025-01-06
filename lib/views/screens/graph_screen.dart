@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:productivity_app/views/widgets/bar_graph.dart';
 import 'package:productivity_app/views/widgets/pie_graph.dart';
 
 class GraphScreen extends StatelessWidget {
@@ -10,7 +9,6 @@ class GraphScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          BarGraphScreen(),
           PieGraph(),
         ],
       ),
