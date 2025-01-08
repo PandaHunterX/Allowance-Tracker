@@ -46,7 +46,7 @@ class _SettingsState extends State<Settings> {
               height: 220,
               child: Stack(
                 children: [
-                  ProfilePicture(key: UniqueKey()),
+                  ProfilePicture(key: UniqueKey(), size: 100,),
                   Container(
                     alignment: Alignment.bottomRight,
                     child: InkWell(

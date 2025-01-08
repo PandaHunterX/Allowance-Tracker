@@ -74,6 +74,9 @@ class _PieGraphState extends State<PieGraph> {
               return const Center(child: Text('Error loading data'));
             } else {
               final data = snapshot.data!;
+              if (data.isEmpty) {
+                return const Center(child: Text('No data available'));
+              }
               final categoryData = _processData(data);
 
               return Column(
@@ -94,7 +97,7 @@ class _PieGraphState extends State<PieGraph> {
               );
             }
           },
-        ),
+        )
       ],
     );
   }
@@ -224,27 +227,37 @@ class _PieGraphState extends State<PieGraph> {
   }
 
   Widget _buildLegend(Map<String, double> categoryData) {
-    return Wrap(
-      spacing: 10,
-      runSpacing: 10,
-      children: categoryData.keys.map((category) {
-        final icon = _getCategoryIcon(category);
-        final color = _getCategoryColor(category);
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            icon,
-            SizedBox(
-              width: 4,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              category,
-              style: TextStyle(color: color),
-            ),
-          ],
-        );
-      }).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: [
+          Text('Legend'),
+          SizedBox(height: 16,),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
+            runSpacing: 10,
+            children: categoryData.keys.map((category) {
+              final icon = _getCategoryIcon(category);
+              final color = _getCategoryColor(category);
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  icon,
+                  SizedBox(
+                    width: 4,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    category,
+                    style: TextStyle(color: color),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 }

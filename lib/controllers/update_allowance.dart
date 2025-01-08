@@ -1,61 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/database/finance_db.dart';
-import 'package:productivity_app/models/categories.dart';
-import 'package:productivity_app/models/category.dart';
 
-class NewAllowance extends StatefulWidget {
-  final VoidCallback onAllowanceAdded;
+import '../database/finance_db.dart';
+import '../models/categories.dart';
+import '../models/category.dart';
 
-  const NewAllowance({super.key, required this.onAllowanceAdded});
+class UpdateAllowance extends StatefulWidget {
+  final VoidCallback allowanceUpdate;
+  final String id;
+  final String description;
+  final double amount;
+  final AllowanceCategory category;
+
+  const UpdateAllowance({
+    super.key,
+    required this.id,
+    required this.description,
+    required this.amount,
+    required this.category, required this.allowanceUpdate,
+  });
 
   @override
-  State<NewAllowance> createState() => _NewAllowanceState();
+  State<UpdateAllowance> createState() => _UpdateAllowanceState();
 }
 
-class _NewAllowanceState extends State<NewAllowance> {
+class _UpdateAllowanceState extends State<UpdateAllowance> {
   final _formKey = GlobalKey<FormState>();
-  String _enteredDescription = '';
-  double _enteredAmount = 0.0;
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-  var _selectedCategory = allowance_categories[AllowanceCategories.salary]!;
+  late AllowanceCategory _selectedCategory;
 
-  void _saveItem() async {
-    final db = FinanceDB();
-    final fetchUser = await db.fetchUser();
-    var user = fetchUser;
-
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      await db.createAllowance(
-          description: _enteredDescription,
-          amount: _enteredAmount,
-          category: _selectedCategory);
-      await db
-          .updateUserAllowance(user.allowance + double.parse(amountController.text));
-      widget.onAllowanceAdded();
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    }
+  @override
+  void initState() {
+    super.initState();
+    _selectedCategory = widget.category;
+    descriptionController.text = widget.description;
+    amountController.text = widget.amount.toString();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     descriptionController.dispose();
     amountController.dispose();
     super.dispose();
   }
 
+  void _updateItem() async {
+    final db = FinanceDB();
+    final fetchUser = await db.fetchUser();
+    final fetchedExpenses = await db.fetchExpense();
+    double totalAllowance = fetchUser.allowance;
+    final totalExpenses =
+    fetchedExpenses.fold(0.0, (sum, item) => sum + item.expense);
+
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      double enteredAmount = double.parse(amountController.text);
+      if (widget.amount > enteredAmount) {
+        totalAllowance -= widget.amount - enteredAmount;
+      } else if (widget.amount < enteredAmount) {
+        totalAllowance += enteredAmount - widget.amount;
+      }
+      if (totalExpenses > fetchUser.allowance - enteredAmount) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Insufficient Allowance'),
+            content: const Text("You don't have enough allowance"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Ok'))
+            ],
+          ),
+        );
+      } else {
+        await db.updateAllowance(
+            id: widget.id,
+            description: descriptionController.text,
+            amount: enteredAmount,
+            category: _selectedCategory);
+        await db.updateUserAllowance(totalAllowance);
+        widget.allowanceUpdate();
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Allowance'),
-      ),
-      body: Form(
+    return AlertDialog(
+      title: Text('Change Allowance'),
+      content: Form(
         key: _formKey,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
               controller: descriptionController,
@@ -69,9 +109,6 @@ class _NewAllowanceState extends State<NewAllowance> {
                   return 'Must be between 1 and 50 characters';
                 }
                 return null;
-              },
-              onSaved: (value) {
-                _enteredDescription = value!;
               },
             ),
             const SizedBox(
@@ -90,9 +127,6 @@ class _NewAllowanceState extends State<NewAllowance> {
                   return 'Must be a positive number';
                 }
                 return null;
-              },
-              onSaved: (value) {
-                _enteredAmount = double.parse(value!);
               },
             ),
             DropdownButtonFormField(
@@ -122,17 +156,13 @@ class _NewAllowanceState extends State<NewAllowance> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                    onPressed: () {
-                      _formKey.currentState!.reset();
-                    },
-                    child: const Text('Clear')),
+                TextButton(onPressed: () {}, child: const Text('Clear')),
                 const SizedBox(
                   width: 8,
                 ),
                 ElevatedButton(
-                  onPressed: _saveItem,
-                  child: const Text('Add Allowance'),
+                  onPressed: _updateItem,
+                  child: const Text('Update Allowance'),
                 )
               ],
             ),

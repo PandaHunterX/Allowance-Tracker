@@ -83,6 +83,28 @@ class FinanceDB {
         ]);
   }
 
+  Future<int> updateAllowance({
+    required String id,
+    required String description,
+    required double amount,
+    required AllowanceCategory category,
+  }) async {
+    final database = await DatabaseService().database;
+
+    return await database.rawUpdate(
+      'UPDATE $allowanceTable SET description = ?, amount = ?, category = ? WHERE id = ?',
+      [description, amount, category.title, id],
+    );
+  }
+
+  Future<int> deleteAllowance({
+    required String id,
+}) async {
+    final database = await DatabaseService().database;
+    
+    return await database.rawDelete('DELETE FROM $allowanceTable WHERE id = ?', [id]);
+  }
+
   Future<User> fetchUser() async {
     final database = await DatabaseService().database;
     final List<Map<String, dynamic>> db = await database.query(userTable);
@@ -92,11 +114,11 @@ class FinanceDB {
       username: user['username'],
       allowance: user['allowance'],
       avatar: user['avatar'],
-      currency: user['currency']
+      currency: user['currency'],
     );
   }
 
-  Future<int> updateAllowance(double allowance) async {
+  Future<int> updateUserAllowance(double allowance) async {
     final database = await DatabaseService().database;
     return await database.update(userTable, {'allowance': allowance},
         where: 'id = ?', whereArgs: ['1']);
@@ -125,6 +147,7 @@ class FinanceDB {
 
     return List.generate(maps.length, (i) {
       return ExpenseItem(
+        id: maps[i]['id'],
         name: maps[i]['name'],
         expense: maps[i]['expense'],
         category: expense_categories.entries
@@ -142,6 +165,7 @@ class FinanceDB {
 
     return List.generate(maps.length, (i) {
       return AllowanceItem(
+        id: maps[i]['id'],
         description: maps[i]['description'],
         amount: maps[i]['amount'],
         category: allowance_categories.entries

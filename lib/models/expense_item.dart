@@ -1,7 +1,4 @@
 import 'package:productivity_app/models/category.dart';
-import 'package:uuid/uuid.dart';
-
-const uuid = Uuid();
 
 class ExpenseItem {
 
@@ -12,5 +9,5 @@ class ExpenseItem {
   final DateTime dateTime;
 
 
-  ExpenseItem({ required this.dateTime, required this.name, required this.expense, required this.category}) : id = uuid.v4();
+  ExpenseItem({required this.id, required this.dateTime, required this.name, required this.expense, required this.category});
 }

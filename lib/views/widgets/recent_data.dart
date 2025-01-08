@@ -16,11 +16,22 @@ class RecentDataList extends StatefulWidget {
 class _RecentDataListState extends State<RecentDataList> {
   List<dynamic> recentData = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  int _currentPage = 1;
+  final int _itemsPerPage = 10;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _fetchRecentData();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchRecentData() async {
@@ -33,6 +44,28 @@ class _RecentDataListState extends State<RecentDataList> {
       recentData.sort((a, b) => b.dateTime.compareTo(a.dateTime));
       _isLoading = false;
     });
+  }
+
+  Future<void> _loadMoreData() async {
+    if (_isLoadingMore) return;
+
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    // Simulate fetching more data
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      _currentPage++;
+      _isLoadingMore = false;
+    });
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      _loadMoreData();
+    }
   }
 
   @override
@@ -50,10 +83,17 @@ class _RecentDataListState extends State<RecentDataList> {
       return false;
     }).toList();
 
+    final paginatedData = filteredData.take(_currentPage * _itemsPerPage).toList();
+
     return ListView.builder(
-      itemCount: filteredData.length,
+      controller: _scrollController,
+      itemCount: paginatedData.length + (_isLoadingMore ? 1 : 0),
       itemBuilder: (ctx, index) {
-        final item = filteredData[index];
+        if (index == paginatedData.length) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final item = paginatedData[index];
         if (item is AllowanceItem) {
           return ListTile(
             textColor: Colors.green.shade900,

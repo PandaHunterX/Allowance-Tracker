@@ -4,8 +4,11 @@ import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/user.dart';
 
 class ProfilePicture extends StatefulWidget {
+  final double size;
+
   const ProfilePicture({
     super.key,
+    required this.size,
   });
 
   @override
@@ -32,11 +35,11 @@ class _ProfilePictureState extends State<ProfilePicture> {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: 110,
+      radius: widget.size + 10,
       backgroundColor: Colors.blue.shade900,
       child: CircleAvatar(
         backgroundColor: Colors.white,
-        radius: 100,
+        radius: widget.size,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: user != null ? SvgPicture.asset(user!.avatar) : const CircularProgressIndicator()),

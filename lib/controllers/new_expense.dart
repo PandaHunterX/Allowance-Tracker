@@ -46,7 +46,7 @@ class _NewExpenseState extends State<NewExpense> {
           expense: _enteredExpense,
           category: _selectedCategory,
         );
-        await db.updateAllowance(user.allowance - _enteredExpense);
+        await db.updateUserAllowance(user.allowance - _enteredExpense);
         widget.onExpenseAdded();
         if (mounted) {
           Navigator.of(context).pop();
