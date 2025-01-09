@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 8,),
-            ExpensesList(key: UniqueKey()),
+            ExpensesList(key: UniqueKey(), refresh: _refresh,),
           ],
         ),
       ),

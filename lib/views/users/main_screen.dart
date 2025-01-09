@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:productivity_app/views/screens/home_screen.dart';
 import 'package:productivity_app/views/users/user_screen.dart';
 
-import '../screens/graph_screen.dart';
+import '../screens/stats_screen.dart';
 import '../screens/search_screen.dart';
 
 class MainScreen extends StatefulWidget {

@@ -38,33 +38,52 @@ class _PieGraphState extends State<PieGraph> {
     return Column(
       children: [
         Text('Your Category Data'),
-        Column(
+        SizedBox(height: 16,),
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RadioListTile(
-              title: const Text('Expense'),
-              value: 'Expense',
-              groupValue: _selectedType,
-              onChanged: (value) {
-                setState(() {
-                  _selectedType = value!;
-                  _dataFuture = _loadData();
-                });
-              },
+            SizedBox(
+              width: 200,
+              child: RadioListTile(
+                tileColor: Colors.blue.shade100,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
+                activeColor: Colors.blue.shade900,
+                title: const Text('Expense'),
+                value: 'Expense',
+                groupValue: _selectedType,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedType = value!;
+                    _dataFuture = _loadData();
+                  });
+                },
+              ),
             ),
-            RadioListTile(
-              title: const Text('Allowance'),
-              value: 'Allowance',
-              groupValue: _selectedType,
-              onChanged: (value) {
-                setState(() {
-                  _selectedType = value!;
-                  _dataFuture = _loadData();
-                });
-              },
+            SizedBox(width: 8,),
+            SizedBox(
+              width: 200,
+              child: RadioListTile(
+                tileColor: Colors.blue.shade100,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
+                activeColor: Colors.blue.shade900,
+                title: const Text('Allowance'),
+                value: 'Allowance',
+                groupValue: _selectedType,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedType = value!;
+                    _dataFuture = _loadData();
+                  });
+                },
+              ),
             ),
           ],
         ),
+        SizedBox(height: 16,),
         FutureBuilder<List<dynamic>>(
           future: _dataFuture,
           builder: (context, snapshot) {
@@ -81,13 +100,23 @@ class _PieGraphState extends State<PieGraph> {
 
               return Column(
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .3,
-                    child: PieChart(
-                      PieChartData(
-                        sections: _generatePieChartSections(categoryData),
-                        centerSpaceRadius: 40,
-                        sectionsSpace: 2,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.blue.shade900, width: 4)
+                      ),
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * .2,
+                      child: PieChart(
+                        PieChartData(
+                          sections: _generatePieChartSections(categoryData),
+                          centerSpaceRadius: 40,
+                          sectionsSpace: 2,
+                        ),
                       ),
                     ),
                   ),
@@ -115,7 +144,7 @@ class _PieGraphState extends State<PieGraph> {
 
       categoryData.update(
         category,
-        (value) => value + amount,
+            (value) => value + amount,
         ifAbsent: () => amount,
       );
     }
@@ -232,29 +261,48 @@ class _PieGraphState extends State<PieGraph> {
       child: Column(
         children: [
           Text('Legend'),
-          SizedBox(height: 16,),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 10,
-            runSpacing: 10,
-            children: categoryData.keys.map((category) {
+          SizedBox(height: 16),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: 4.5,
+            ),
+            itemCount: categoryData.keys.length,
+            itemBuilder: (context, index) {
+              final category = categoryData.keys.elementAt(index);
               final icon = _getCategoryIcon(category);
               final color = _getCategoryColor(category);
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  icon,
-                  SizedBox(
-                    width: 4,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    category,
-                    style: TextStyle(color: color),
-                  ),
-                ],
+              final totalAmount = categoryData[category]!;
+              return Container(
+                decoration: BoxDecoration(border: Border.all(color: color, width: 1)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    icon,
+                    SizedBox(width: 8),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            category,
+                            style: TextStyle(color: color),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text('Php ${totalAmount.toStringAsFixed(2)}', style: TextStyle(color: color),
+                            overflow: TextOverflow.ellipsis,)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               );
-            }).toList(),
+            },
           ),
         ],
       ),

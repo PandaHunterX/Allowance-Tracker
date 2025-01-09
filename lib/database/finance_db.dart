@@ -66,6 +66,29 @@ class FinanceDB {
     );
   }
 
+  Future<int> updateExpense({
+    required String id,
+    required String name,
+    required double expense,
+    required ExpenseCategory category,
+  }) async {
+    final database = await DatabaseService().database;
+
+    return await database.rawUpdate(
+      'UPDATE $expenseTable SET name = ?, expense = ?, category = ? WHERE id = ?',
+      [name, expense, category.title, id],
+    );
+  }
+
+  Future<int> deleteExpense({
+    required String id,
+  }) async {
+    final database = await DatabaseService().database;
+
+    return await database.rawDelete('DELETE FROM $expenseTable WHERE id = ?', [id]);
+  }
+
+
   Future<int> createAllowance(
       {required String description,
       required double amount,
@@ -99,7 +122,7 @@ class FinanceDB {
 
   Future<int> deleteAllowance({
     required String id,
-}) async {
+  }) async {
     final database = await DatabaseService().database;
     
     return await database.rawDelete('DELETE FROM $allowanceTable WHERE id = ?', [id]);

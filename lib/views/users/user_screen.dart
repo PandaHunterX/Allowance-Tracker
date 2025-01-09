@@ -27,7 +27,7 @@ class _UserScreenState extends State<UserScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
-            child: ProfilePicture(key: UniqueKey(), size: 100,),
+            child: ProfilePicture(key: UniqueKey(), size: MediaQuery.sizeOf(context).width * .2,),
           ),
           const SizedBox(
             height: 8,
@@ -82,6 +82,7 @@ class _UserScreenState extends State<UserScreen> {
               ),
             ),
           ),
+          SizedBox(height: 16,),
           AllowancesList(key: UniqueKey(), refresh: _refresh,)
         ],
       ),

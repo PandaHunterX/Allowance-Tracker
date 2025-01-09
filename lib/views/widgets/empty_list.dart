@@ -40,7 +40,7 @@ class AllowanceEmptyList extends StatelessWidget {
             Image.asset(
               'assets/images/no_allowance.png',
               width: MediaQuery.of(context).size.width - 64,
-              height: MediaQuery.of(context).size.height * .25,
+              height: MediaQuery.of(context).size.height * .2,
             ),
             const Text(
               "YOU HAVE NO ALLOWANCE YET",
