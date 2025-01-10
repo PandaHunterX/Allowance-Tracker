@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:productivity_app/controllers/new_expense.dart';
@@ -26,17 +27,21 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width - 54,
+              height: MediaQuery.sizeOf(context).height * .15,
               decoration: BoxDecoration(
                 border: Border.all(width: 4, color: Colors.blue.shade900),
                 borderRadius: const BorderRadius.all(Radius.circular(32)),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const Text(
-                      'Your Allowance',
-                      style: TextStyle(fontSize: 36),
+                    Expanded(
+                      child: AutoSizeText(
+                          'Your Allowance',
+                          style: TextStyle(fontSize: 36),
+                        minFontSize: 16,
+                      ),
                     ),
                     const SizedBox(
                       height: 8,
@@ -44,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/svg/money.svg'),
+                        SvgPicture.asset('assets/svg/money.svg',
+                          width: MediaQuery.sizeOf(context).width * .12,),
                         const SizedBox(
                           width: 8,
                         ),
@@ -66,10 +72,11 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: const CustomizeButton(text: 'Add New Expense', icon: Icons.add,),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 16),
             Container(
               alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height * .05,
               decoration: BoxDecoration(
                 border: Border.symmetric(
                   horizontal:
@@ -77,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   vertical: BorderSide.none,
                 ),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 'Your Expenses Today',
                 style: TextStyle(fontSize: 30),
               ),

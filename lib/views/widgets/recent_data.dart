@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/allowance_item.dart';
@@ -63,7 +64,8 @@ class _RecentDataListState extends State<RecentDataList> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
       _loadMoreData();
     }
   }
@@ -83,7 +85,8 @@ class _RecentDataListState extends State<RecentDataList> {
       return false;
     }).toList();
 
-    final paginatedData = filteredData.take(_currentPage * _itemsPerPage).toList();
+    final paginatedData =
+        filteredData.take(_currentPage * _itemsPerPage).toList();
 
     return ListView.builder(
       controller: _scrollController,
@@ -100,8 +103,10 @@ class _RecentDataListState extends State<RecentDataList> {
             title: Row(
               children: [
                 item.category.icon,
-                SizedBox(width: 4,),
-                Text('Allowance: ${item.description}'),
+                SizedBox(
+                  width: 4,
+                ),
+                Expanded(child: AutoSizeText(maxLines: 1, 'Allowance: ${item.description}')),
               ],
             ),
             subtitle: Text('Amount: ++ Php ${item.amount}'),
@@ -113,7 +118,9 @@ class _RecentDataListState extends State<RecentDataList> {
             title: Row(
               children: [
                 item.category.icon,
-                SizedBox(width: 4,),
+                SizedBox(
+                  width: 4,
+                ),
                 Text('Expense: ${item.name}'),
               ],
             ),

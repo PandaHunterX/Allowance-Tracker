@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../database/finance_db.dart';
@@ -100,7 +101,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
           children: [
             TextFormField(
               controller: descriptionController,
-              maxLength: 50,
+              maxLength: 20,
               decoration: const InputDecoration(label: Text('Description')),
               validator: (value) {
                 if (value == null ||
@@ -118,7 +119,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
             TextFormField(
               controller: amountController,
               keyboardType: TextInputType.number,
-              maxLength: 8,
+              maxLength: 20,
               decoration: const InputDecoration(label: Text('Amount')),
               validator: (value) {
                 if (value == null ||
@@ -167,7 +168,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
                 ),
                 ElevatedButton(
                   onPressed: _updateItem,
-                  child: const Text('Update Allowance'),
+                  child: const AutoSizeText('Update Allowance', maxLines: 1,style: TextStyle(fontSize: 1),),
                 )
               ],
             ),

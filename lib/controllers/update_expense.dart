@@ -101,7 +101,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
           children: [
             TextFormField(
               controller: nameController,
-              maxLength: 50,
+              maxLength: 20,
               decoration: const InputDecoration(label: Text('Description')),
               validator: (value) {
                 if (value == null ||
@@ -123,7 +123,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
             TextFormField(
               controller: expenseController,
               keyboardType: TextInputType.number,
-              maxLength: 8,
+              maxLength: 20,
               decoration: const InputDecoration(label: Text('Expense')),
               validator: (value) {
                 if (value == null ||

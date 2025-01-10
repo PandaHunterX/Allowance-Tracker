@@ -44,7 +44,7 @@ class _UsernameFormState extends State<UsernameForm> {
         key: _formKey,
         child: TextFormField(
           controller: usernameController,
-          maxLength: 30,
+          maxLength: 20,
           validator: (value) {
             if (value == null ||
                 value.isEmpty ||
@@ -62,7 +62,7 @@ class _UsernameFormState extends State<UsernameForm> {
         ),
       ),
       actions: [
-        TextButton(onPressed: _submitUsername, child: const Text('Submit'))
+        TextButton(onPressed: _submitUsername, child: const Text('Save'))
       ],
     );
   }

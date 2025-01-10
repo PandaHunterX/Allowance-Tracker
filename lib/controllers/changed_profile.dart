@@ -58,7 +58,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
                   radius: 60,
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
-                    radius: 60,
+                    radius: 50,
                     child: SvgPicture.asset(profile.svg, width: 80,),
                   ),
                 ),
@@ -69,7 +69,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
       ),
       actions: [
         TextButton(
-          child: const Text('Submit'),
+          child: const Text('SAVE'),
           onPressed: () {
             _save_profile();
             Navigator.of(context).pop(); // Dismiss alert dialog

@@ -6,7 +6,8 @@ import 'package:productivity_app/models/category.dart';
 import '../../models/user.dart';
 
 class CurrencyDropdown extends StatefulWidget {
-  const CurrencyDropdown({super.key});
+  final VoidCallback onCurrencyChanged;
+  const CurrencyDropdown({super.key, required this.onCurrencyChanged});
 
   @override
   State<CurrencyDropdown> createState() => _CurrencyDropdownState();
@@ -64,6 +65,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
             _selectedCategory = value!;
           });
           _saveCurrency();
+          widget.onCurrencyChanged();
         },
       ),
     );

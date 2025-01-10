@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/controllers/new_allowance.dart';
 import 'package:productivity_app/views/screens/settings.dart';
@@ -15,10 +16,10 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  void _refresh(){
-    setState(() {
-    });
+  void _refresh() {
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,19 +28,31 @@ class _UserScreenState extends State<UserScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
-            child: ProfilePicture(key: UniqueKey(), size: MediaQuery.sizeOf(context).width * .2,),
+            child: ProfilePicture(
+              key: UniqueKey(),
+              size: MediaQuery.sizeOf(context).width <= 1280
+                  ? MediaQuery.sizeOf(context).width * .2
+                  : MediaQuery.sizeOf(context).width * .1,
+            ),
           ),
           const SizedBox(
             height: 8,
           ),
-          Username(key: UniqueKey(),),
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height * .08,
+            child: Username(
+              key: UniqueKey(),
+            ),
+          ),
           const SizedBox(
             height: 8,
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) =>  Settings(refreshed: _refresh,)));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => Settings(
+                        refreshed: _refresh,
+                      )));
             },
             child: const CustomizeButton(
               text: 'Settings',
@@ -55,15 +68,18 @@ class _UserScreenState extends State<UserScreen> {
             color: Colors.blue,
           ),
           const SizedBox(
-            height: 24,
+            height: 20,
           ),
           InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => NewAllowance(onAllowanceAdded: _refresh,)));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => NewAllowance(
+                        onAllowanceAdded: _refresh,
+                      )));
             },
             child: Container(
-              width: 200,
+              width: MediaQuery.sizeOf(context).width * .5,
+              height: MediaQuery.sizeOf(context).height * .06,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(60)),
                   border: Border.all(width: 4, color: Colors.blue.shade600)),
@@ -74,16 +90,23 @@ class _UserScreenState extends State<UserScreen> {
                     color: Colors.blue,
                     size: 36,
                   ),
-                  Text(
-                    'Add Allowance',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: AutoSizeText(
+                      'Add Allowance',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(height: 16,),
-          AllowancesList(key: UniqueKey(), refresh: _refresh,)
+          SizedBox(
+            height: 8,
+          ),
+          AllowancesList(
+            key: UniqueKey(),
+            refresh: _refresh,
+          )
         ],
       ),
     );

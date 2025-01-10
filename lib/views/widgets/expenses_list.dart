@@ -16,6 +16,7 @@ class ExpensesList extends StatefulWidget {
 class _ExpensesListState extends State<ExpensesList> {
   List<ExpenseItem> expenses = [];
   bool _isLoading = true;
+  dynamic user;
 
   @override
   void initState() {
@@ -26,8 +27,10 @@ class _ExpensesListState extends State<ExpensesList> {
   Future<void> _fetchExpenses() async {
     final db = FinanceDB();
     final fetchedExpenses = await db.fetchExpense();
+    final fetchedUser = await db.fetchUser();
     setState(() {
       expenses = fetchedExpenses;
+      user = fetchedUser;
       _isLoading = false;
     });
   }
@@ -46,7 +49,7 @@ class _ExpensesListState extends State<ExpensesList> {
     }).toList();
 
     var content = (todayExpenses.isNotEmpty)
-        ? ExpenseList(todayExpenses: todayExpenses, refresh: widget.refresh,)
+        ? ExpenseList(todayExpenses: todayExpenses, refresh: widget.refresh, user: user,)
         : const ExpenseEmptyList();
 
     return content;
@@ -55,9 +58,10 @@ class _ExpensesListState extends State<ExpensesList> {
 
 class ExpenseList extends StatelessWidget {
   final VoidCallback refresh;
+  final dynamic user;
   const ExpenseList({
     super.key,
-    required this.todayExpenses, required this.refresh,
+    required this.user, required this.todayExpenses, required this.refresh,
   });
 
   final List<ExpenseItem> todayExpenses;
@@ -147,7 +151,7 @@ class ExpenseList extends StatelessWidget {
                   ),
                 ),
                 trailing: Text(
-                  "Php ${todayExpenses[index].expense}",
+                  "${user.currency} ${todayExpenses[index].expense}",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),

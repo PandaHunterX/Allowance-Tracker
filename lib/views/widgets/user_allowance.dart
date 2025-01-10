@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../../database/finance_db.dart';
 import '../../models/user.dart';
@@ -30,9 +31,17 @@ class _UserAllowanceState extends State<UserAllowance> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(user?.currency ?? 'Loading'),
-        const SizedBox(width: 8,),
-        Text(user?.allowance.toString() ?? 'Loading'),
+        AutoSizeText(
+          user?.currency ?? 'Loading',
+          style: TextStyle(fontSize: 16),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        AutoSizeText(
+          user?.allowance.toString() ?? 'Loading',
+          style: TextStyle(fontSize: 16),
+        ),
       ],
     );
   }

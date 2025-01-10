@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:productivity_app/views/screens/home_screen.dart';
 import 'package:productivity_app/views/users/user_screen.dart';
@@ -27,14 +28,22 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
-        title: const Text('Finance Buddy',style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black87 , letterSpacing: 4),),
+        title: const Text(
+          'Finance Buddy',
+          style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+              letterSpacing: 4),
+        ),
         backgroundColor: Colors.blue.shade300,
         centerTitle: true,
       ),
       bottomNavigationBar: Container(
-        height: 120,
+        height: MediaQuery.sizeOf(context).height * .12,
         decoration: BoxDecoration(
-          color: Colors.transparent, // Matches the BottomNavigationBar background
+          color: Colors.transparent,
+          // Matches the BottomNavigationBar background
           border: Border.all(
             width: 5,
             color: Colors.blue.shade900,
@@ -53,13 +62,20 @@ class _MainScreenState extends State<MainScreen> {
           child: BottomNavigationBar(
             currentIndex: _page_index,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.blue.shade50, // Use transparent to show Container's background
-            iconSize: 50,
+            backgroundColor: Colors.blue.shade50,
+            iconSize: MediaQuery.of(context).size.width * 0.1, // Icon size responsive to screen width
             unselectedItemColor: Colors.blue.shade200,
             selectedItemColor: Colors.blue.shade700,
-            selectedFontSize: 20,
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            selectedFontSize: MediaQuery.of(context).size.width * 0.045, // Font size responsive to screen width
+            unselectedFontSize: MediaQuery.of(context).size.width * 0.04,
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: MediaQuery.of(context).size.width * 0.04, // Dynamic font size
+            ),
+            selectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: MediaQuery.of(context).size.width * 0.045, // Dynamic font size
+            ),
             showSelectedLabels: true,
             onTap: (value) {
               setState(() {
@@ -69,10 +85,10 @@ class _MainScreenState extends State<MainScreen> {
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(icon: Icon(Icons.auto_graph), label: 'Stats'),
-              BottomNavigationBarItem(icon: Icon(Icons.search),label: 'Search'),
+              BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'User'),
             ],
-          ),
+          )
         ),
       ),
       body: _pages[_page_index],

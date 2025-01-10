@@ -59,7 +59,7 @@ class _NewAllowanceState extends State<NewAllowance> {
           children: [
             TextFormField(
               controller: descriptionController,
-              maxLength: 50,
+              maxLength: 20,
               decoration: const InputDecoration(label: Text('Description')),
               validator: (value) {
                 if (value == null ||

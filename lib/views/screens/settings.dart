@@ -82,8 +82,9 @@ class _SettingsState extends State<Settings> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Username: ', style: TextStyle(fontSize: 32)),
-              Username(key: UniqueKey()),
+              SizedBox(
+                height: 32,
+                  child: Username(key: UniqueKey())),
               const SizedBox(width: 16),
               InkWell(
                 child: CircleAvatar(
@@ -116,7 +117,7 @@ class _SettingsState extends State<Settings> {
             color: Colors.blue.shade500,
           ),
           const SizedBox(height: 32),
-          const CurrencyDropdown(),
+          CurrencyDropdown(onCurrencyChanged: widget.refreshed,),
         ],
       ),
     );

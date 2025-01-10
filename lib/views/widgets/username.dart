@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../database/finance_db.dart';
@@ -31,9 +32,12 @@ class _UsernameState extends State<Username> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      user?.username ?? 'Loading...',
-      style: const TextStyle(fontSize: 32),
+    return Center(
+      child: AutoSizeText(
+        user?.username ?? 'Loading...',
+        maxLines: 1,
+        style: const TextStyle(fontSize: 32),
+      ),
     );
   }
 }

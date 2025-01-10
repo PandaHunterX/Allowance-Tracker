@@ -17,6 +17,7 @@ class AllowancesList extends StatefulWidget {
 
 class _AllowancesListState extends State<AllowancesList> {
   List<AllowanceItem> allowances = [];
+  dynamic user;
   bool _isLoading = true;
 
   @override
@@ -28,8 +29,10 @@ class _AllowancesListState extends State<AllowancesList> {
   Future<void> _fetchAllowances() async {
     final db = FinanceDB();
     final fetchedAllowances = await db.fetchAllowance();
+    final fetchUser = await db.fetchUser();
     setState(() {
       allowances = fetchedAllowances;
+      user = fetchUser;
       _isLoading = false;
     });
   }
@@ -42,9 +45,10 @@ class _AllowancesListState extends State<AllowancesList> {
 
     var content = (allowances.isNotEmpty)
         ? AllowanceList(
-            allowances: allowances,
-            refresh: widget.refresh,
-          )
+      allowances: allowances,
+      refresh: widget.refresh,
+      user: user,
+    )
         : const AllowanceEmptyList();
 
     return content;
@@ -53,9 +57,10 @@ class _AllowancesListState extends State<AllowancesList> {
 
 class AllowanceList extends StatelessWidget {
   final VoidCallback refresh;
+  final dynamic user;
 
   const AllowanceList(
-      {super.key, required this.allowances, required this.refresh});
+      {super.key, required this.allowances, required this.refresh, required this.user});
 
   final List<AllowanceItem> allowances;
 
@@ -94,6 +99,7 @@ class AllowanceList extends StatelessWidget {
     final recentAllowances = allowances.toList()
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
+
     return Expanded(
       child: Column(
         children: [
@@ -108,7 +114,7 @@ class AllowanceList extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount:
-                  recentAllowances.length < 3 ? recentAllowances.length : 3,
+              recentAllowances.length < 3 ? recentAllowances.length : 3,
               itemBuilder: (ctx, index) => ListTile(
                 title: GestureDetector(
                   onLongPress: () => showDialog<void>(
@@ -175,7 +181,7 @@ class AllowanceList extends StatelessWidget {
                   ),
                 ),
                 trailing: Text(
-                  "Php ${recentAllowances[index].amount}",
+                  "${user.currency} ${recentAllowances[index].amount}",
                   style: const TextStyle(fontSize: 16),
                 ),
               ),

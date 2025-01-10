@@ -23,13 +23,14 @@ class GraphScreen extends StatelessWidget {
                     children: [
                       ProfilePicture(size: 35,),
                       SizedBox(width: 16,),
-                      Username()
+                      Expanded(
+                          child: Username())
                     ],
                   ),
                   SizedBox(height: 8,),
                   Row(
                     children: [
-                      Text('Your Allowance: '),
+                      Text('Remaining Allowance: '),
                       UserAllowance(),
                     ],
                   ),

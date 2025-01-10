@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseEmptyList extends StatelessWidget {
@@ -6,18 +7,18 @@ class ExpenseEmptyList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40.0),
+      padding: const EdgeInsets.only(top: 24.0),
       child: Column(
         children: [
           Image.asset(
             'assets/images/no_money.png',
             width: MediaQuery.of(context).size.width - 64,
-            height: MediaQuery.of(context).size.height * .25,
+            height: MediaQuery.of(context).size.height * .2,
           ),
           const SizedBox(
             height: 8,
           ),
-          const Text(
+          const AutoSizeText(
             "YOU DIDN'T SPEND ANYTHING TODAY",
             style: TextStyle(fontSize: 20),
           )
@@ -35,18 +36,20 @@ class AllowanceEmptyList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Center(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/no_allowance.png',
-              width: MediaQuery.of(context).size.width - 64,
-              height: MediaQuery.of(context).size.height * .2,
-            ),
-            const Text(
-              "YOU HAVE NO ALLOWANCE YET",
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/no_allowance.png',
+                width: MediaQuery.of(context).size.width - 64,
+                height: MediaQuery.of(context).size.height * .2,
+              ),
+              const Text(
+                "YOU HAVE NO ALLOWANCE YET",
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
     );

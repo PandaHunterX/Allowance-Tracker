@@ -76,7 +76,7 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               TextFormField(
                 controller: nameController,
-                maxLength: 50,
+                maxLength: 20,
                 decoration: const InputDecoration(label: Text('Name')),
                 validator: (value) {
                   if (value == null ||

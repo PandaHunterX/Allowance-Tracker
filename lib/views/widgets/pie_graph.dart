@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:productivity_app/database/finance_db.dart';
@@ -43,14 +44,15 @@ class _PieGraphState extends State<PieGraph> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 200,
+              width: MediaQuery.sizeOf(context).width * .4,
+              height: MediaQuery.sizeOf(context).width * .1,
               child: RadioListTile(
                 tileColor: Colors.blue.shade100,
                 visualDensity: const VisualDensity(
                     horizontal: VisualDensity.minimumDensity,
                     vertical: VisualDensity.minimumDensity),
                 activeColor: Colors.blue.shade900,
-                title: const Text('Expense'),
+                title: const AutoSizeText('Expense', minFontSize: 8,),
                 value: 'Expense',
                 groupValue: _selectedType,
                 onChanged: (value) {
@@ -63,14 +65,15 @@ class _PieGraphState extends State<PieGraph> {
             ),
             SizedBox(width: 8,),
             SizedBox(
-              width: 200,
+              width: MediaQuery.sizeOf(context).width * .4,
+              height: MediaQuery.sizeOf(context).width * .1,
               child: RadioListTile(
                 tileColor: Colors.blue.shade100,
                 visualDensity: const VisualDensity(
                     horizontal: VisualDensity.minimumDensity,
                     vertical: VisualDensity.minimumDensity),
                 activeColor: Colors.blue.shade900,
-                title: const Text('Allowance'),
+                title: const AutoSizeText('Allowance', minFontSize: 8, maxLines: 1,),
                 value: 'Allowance',
                 groupValue: _selectedType,
                 onChanged: (value) {
@@ -110,11 +113,11 @@ class _PieGraphState extends State<PieGraph> {
                       height: MediaQuery
                           .of(context)
                           .size
-                          .height * .2,
+                          .height * .25,
                       child: PieChart(
                         PieChartData(
                           sections: _generatePieChartSections(categoryData),
-                          centerSpaceRadius: 40,
+                          centerSpaceRadius: 30,
                           sectionsSpace: 2,
                         ),
                       ),
@@ -269,7 +272,7 @@ class _PieGraphState extends State<PieGraph> {
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: 4.5,
+              childAspectRatio: 2.5,
             ),
             itemCount: categoryData.keys.length,
             itemBuilder: (context, index) {
@@ -280,6 +283,7 @@ class _PieGraphState extends State<PieGraph> {
               return Container(
                 decoration: BoxDecoration(border: Border.all(color: color, width: 1)),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -287,6 +291,7 @@ class _PieGraphState extends State<PieGraph> {
                     SizedBox(width: 8),
                     Flexible(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -294,7 +299,7 @@ class _PieGraphState extends State<PieGraph> {
                             style: TextStyle(color: color),
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Text('Php ${totalAmount.toStringAsFixed(2)}', style: TextStyle(color: color),
+                          Text('Total: ${totalAmount.toStringAsFixed(2)}', style: TextStyle(color: color),
                             overflow: TextOverflow.ellipsis,)
                         ],
                       ),
