@@ -74,6 +74,13 @@ class _NewExpenseState extends State<NewExpense> {
           key: _formKey,
           child: Column(
             children: [
+              Image.asset(
+                'assets/images/man-shopping.png',
+                width: MediaQuery.sizeOf(context).width * .7,
+                height: MediaQuery.viewInsetsOf(context).bottom > 0
+                    ? MediaQuery.sizeOf(context).height * .2
+                    : MediaQuery.sizeOf(context).height * .35,
+              ),
               TextFormField(
                 controller: nameController,
                 maxLength: 20,

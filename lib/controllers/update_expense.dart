@@ -50,7 +50,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
     final fetchUser = await db.fetchUser();
     final fetchedExpenses = await db.fetchExpense();
     double totalAllowance = fetchUser.allowance;
-    final totalExpenses =
+    double totalExpenses =
     fetchedExpenses.fold(0.0, (sum, item) => sum + item.expense);
 
     if (_formKey.currentState!.validate()) {
@@ -61,7 +61,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
       } else if (widget.expense < enteredExpense) {
         totalAllowance -= enteredExpense - widget.expense;
       }
-      if (totalExpenses > totalAllowance) {
+      if (0 > totalAllowance) {
         showDialog(
           context: context,
           builder: (ctx) =>

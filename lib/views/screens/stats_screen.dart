@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 import 'package:productivity_app/views/widgets/pie_graph.dart';
 import 'package:productivity_app/views/widgets/profile_picture.dart';
 import 'package:productivity_app/views/widgets/total_data.dart';
@@ -24,13 +25,14 @@ class GraphScreen extends StatelessWidget {
                       ProfilePicture(size: 35,),
                       SizedBox(width: 16,),
                       Expanded(
-                          child: Username())
+                          child: Username(textAlign: TextAlign.start,))
                     ],
                   ),
                   SizedBox(height: 8,),
                   Row(
                     children: [
-                      Text('Remaining Allowance: '),
+                      TitleText(words: 'Remaining Allowance: ', size: 20, fontWeight: FontWeight.w600,),
+                      SizedBox(width: 8,),
                       UserAllowance(),
                     ],
                   ),
@@ -38,8 +40,10 @@ class GraphScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 32,),
+            SizedBox(height: 20,),
             TotalData(),
+            SizedBox(height: 20,),
+            Divider(height: 2, color: Colors.blue.shade900,),
             SizedBox(height: 32,),
             PieGraph(),
           ],

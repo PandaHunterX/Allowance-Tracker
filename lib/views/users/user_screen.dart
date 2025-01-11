@@ -39,9 +39,9 @@ class _UserScreenState extends State<UserScreen> {
             height: 8,
           ),
           SizedBox(
-            height: MediaQuery.sizeOf(context).height * .08,
+            height: MediaQuery.sizeOf(context).height * .05,
             child: Username(
-              key: UniqueKey(),
+              key: UniqueKey(), textAlign: TextAlign.start,
             ),
           ),
           const SizedBox(
@@ -78,7 +78,7 @@ class _UserScreenState extends State<UserScreen> {
                       )));
             },
             child: Container(
-              width: MediaQuery.sizeOf(context).width * .5,
+              width: MediaQuery.sizeOf(context).width * .45,
               height: MediaQuery.sizeOf(context).height * .06,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(60)),
@@ -92,6 +92,7 @@ class _UserScreenState extends State<UserScreen> {
                   ),
                   Expanded(
                     child: AutoSizeText(
+                      textAlign: TextAlign.center,
                       'Add Allowance',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),

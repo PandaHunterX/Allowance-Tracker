@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/expense_item.dart';
 import 'package:productivity_app/models/allowance_item.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 
 import '../../models/categories.dart';
 import '../../models/category.dart';
@@ -38,50 +39,63 @@ class _PieGraphState extends State<PieGraph> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Your Category Data'),
+        TitleText(words: 'Your Category Data', size: 32, fontWeight: FontWeight.w500,),
         SizedBox(height: 16,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               width: MediaQuery.sizeOf(context).width * .4,
               height: MediaQuery.sizeOf(context).width * .1,
-              child: RadioListTile(
-                tileColor: Colors.blue.shade100,
-                visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity),
-                activeColor: Colors.blue.shade900,
-                title: const AutoSizeText('Expense', minFontSize: 8,),
-                value: 'Expense',
-                groupValue: _selectedType,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedType = value!;
-                    _dataFuture = _loadData();
-                  });
-                },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade900, width: 2),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: RadioListTile(
+                  tileColor: Colors.blue.shade100,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
+                  activeColor: Colors.blue.shade900,
+                  title: TitleText(words: 'EXPENSE', size: 20, fontWeight: FontWeight.w700),
+                  value: 'Expense',
+                  groupValue: _selectedType,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedType = value!;
+                      _dataFuture = _loadData();
+                    });
+                  },
+                ),
               ),
             ),
             SizedBox(width: 8,),
             SizedBox(
-              width: MediaQuery.sizeOf(context).width * .4,
+              width: MediaQuery.sizeOf(context).width * .45,
               height: MediaQuery.sizeOf(context).width * .1,
-              child: RadioListTile(
-                tileColor: Colors.blue.shade100,
-                visualDensity: const VisualDensity(
-                    horizontal: VisualDensity.minimumDensity,
-                    vertical: VisualDensity.minimumDensity),
-                activeColor: Colors.blue.shade900,
-                title: const AutoSizeText('Allowance', minFontSize: 8, maxLines: 1,),
-                value: 'Allowance',
-                groupValue: _selectedType,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedType = value!;
-                    _dataFuture = _loadData();
-                  });
-                },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.blue.shade900, width: 2),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: RadioListTile(
+                  tileColor: Colors.blue.shade100,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
+                  activeColor: Colors.blue.shade900,
+                  title: TitleText(words: 'ALLOWANCE', size: 20, fontWeight: FontWeight.w700),
+                  value: 'Allowance',
+                  groupValue: _selectedType,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedType = value!;
+                      _dataFuture = _loadData();
+                    });
+                  },
+                ),
               ),
             ),
           ],
@@ -108,7 +122,8 @@ class _PieGraphState extends State<PieGraph> {
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: Colors.blue.shade900, width: 4)
+                              color: Colors.blue.shade900, width: 4),
+                        borderRadius: BorderRadius.all(Radius.circular(32))
                       ),
                       height: MediaQuery
                           .of(context)
@@ -117,7 +132,7 @@ class _PieGraphState extends State<PieGraph> {
                       child: PieChart(
                         PieChartData(
                           sections: _generatePieChartSections(categoryData),
-                          centerSpaceRadius: 30,
+                          centerSpaceRadius: 0,
                           sectionsSpace: 2,
                         ),
                       ),
@@ -167,7 +182,7 @@ class _PieGraphState extends State<PieGraph> {
           color: _getCategoryColor(category),
           value: percentage,
           title: '${percentage.toStringAsFixed(1)}%',
-          radius: 50,
+          radius: 100,
           titleStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -205,7 +220,7 @@ class _PieGraphState extends State<PieGraph> {
       case 'Salary':
         return Colors.teal;
       case 'Gifts':
-        return Colors.amber;
+        return Colors.amber.shade900;
       case 'Scholarship':
         return Colors.indigo;
       case 'Business':
@@ -263,7 +278,7 @@ class _PieGraphState extends State<PieGraph> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
-          Text('Legend'),
+          TitleText(words: 'Legend', size: 24, fontWeight: FontWeight.w600),
           SizedBox(height: 16),
           GridView.builder(
             shrinkWrap: true,
@@ -281,7 +296,10 @@ class _PieGraphState extends State<PieGraph> {
               final color = _getCategoryColor(category);
               final totalAmount = categoryData[category]!;
               return Container(
-                decoration: BoxDecoration(border: Border.all(color: color, width: 1)),
+                decoration: BoxDecoration(
+                    color: color.withOpacity(0.05),
+                    border: Border.all(color: color, width: 2),
+                borderRadius: BorderRadius.all(Radius.circular(100))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -294,13 +312,9 @@ class _PieGraphState extends State<PieGraph> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            category,
-                            style: TextStyle(color: color),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text('Total: ${totalAmount.toStringAsFixed(2)}', style: TextStyle(color: color),
-                            overflow: TextOverflow.ellipsis,)
+                          TitleText(words: category, size: 20, fontWeight: FontWeight.w400),
+                          Text('Total: ${totalAmount.toStringAsFixed(2)}', style: TextStyle(color: color, fontSize: 16),
+                            overflow: TextOverflow.ellipsis)
                         ],
                       ),
                     ),

@@ -84,7 +84,7 @@ class _SettingsState extends State<Settings> {
             children: [
               SizedBox(
                 height: 32,
-                  child: Username(key: UniqueKey())),
+                  child: Username(key: UniqueKey(), textAlign: TextAlign.center,)),
               const SizedBox(width: 16),
               InkWell(
                 child: CircleAvatar(

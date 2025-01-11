@@ -62,7 +62,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
       } else if (widget.amount < enteredAmount) {
         totalAllowance += enteredAmount - widget.amount;
       }
-      if (totalExpenses > totalAllowance) {
+      if (totalExpenses > (totalAllowance + fetchUser.allowance)) {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
@@ -94,85 +94,88 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Change Allowance'),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: descriptionController,
-              maxLength: 20,
-              decoration: const InputDecoration(label: Text('Description')),
-              validator: (value) {
-                if (value == null ||
-                    value.isEmpty ||
-                    value.trim().length <= 1 ||
-                    value.trim().length > 50) {
-                  return 'Must be between 1 and 50 characters';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            TextFormField(
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              maxLength: 20,
-              decoration: const InputDecoration(label: Text('Amount')),
-              validator: (value) {
-                if (value == null ||
-                    value.isEmpty ||
-                    double.tryParse(value) == null ||
-                    double.tryParse(value)! <= 0) {
-                  return 'Must be a positive number';
-                }
-                return null;
-              },
-            ),
-            DropdownButtonFormField(
-                value: _selectedCategory,
-                items: [
-                  for (final category in allowance_categories.entries)
-                    DropdownMenuItem(
-                        value: category.value,
-                        child: Row(
-                          children: [
-                            category.value.icon,
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(category.value.title)
-                          ],
-                        ))
+      content: SizedBox(
+        width: MediaQuery.sizeOf(context).width - 200,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: descriptionController,
+                maxLength: 30,
+                decoration: const InputDecoration(label: Text('Description')),
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      value.trim().length <= 1 ||
+                      value.trim().length > 50) {
+                    return 'Must be between 1 and 50 characters';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              TextFormField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                maxLength: 10,
+                decoration: const InputDecoration(label: Text('Amount')),
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      double.tryParse(value) == null ||
+                      double.tryParse(value)! <= 0) {
+                    return 'Must be a positive number';
+                  }
+                  return null;
+                },
+              ),
+              DropdownButtonFormField(
+                  value: _selectedCategory,
+                  items: [
+                    for (final category in allowance_categories.entries)
+                      DropdownMenuItem(
+                          value: category.value,
+                          child: Row(
+                            children: [
+                              category.value.icon,
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(category.value.title)
+                            ],
+                          ))
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCategory = value!;
+                    });
+                  }),
+              const SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButton(
+                    onPressed: _updateItem,
+                    child: const AutoSizeText('Update Allowance', maxLines: 1,style: TextStyle(fontSize: 1),),
+                  )
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategory = value!;
-                  });
-                }),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel')),
-                const SizedBox(
-                  width: 8,
-                ),
-                ElevatedButton(
-                  onPressed: _updateItem,
-                  child: const AutoSizeText('Update Allowance', maxLines: 1,style: TextStyle(fontSize: 1),),
-                )
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

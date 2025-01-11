@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/allowance_item.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 import 'package:productivity_app/views/widgets/empty_list.dart';
 import 'package:productivity_app/views/widgets/user_allowance.dart';
 import '../../controllers/update_allowance.dart';
@@ -45,10 +46,10 @@ class _AllowancesListState extends State<AllowancesList> {
 
     var content = (allowances.isNotEmpty)
         ? AllowanceList(
-      allowances: allowances,
-      refresh: widget.refresh,
-      user: user,
-    )
+            allowances: allowances,
+            refresh: widget.refresh,
+            user: user,
+          )
         : const AllowanceEmptyList();
 
     return content;
@@ -59,8 +60,12 @@ class AllowanceList extends StatelessWidget {
   final VoidCallback refresh;
   final dynamic user;
 
-  const AllowanceList(
-      {super.key, required this.allowances, required this.refresh, required this.user});
+  const AllowanceList({
+    super.key,
+    required this.allowances,
+    required this.refresh,
+    required this.user,
+  });
 
   final List<AllowanceItem> allowances;
 
@@ -74,19 +79,17 @@ class AllowanceList extends StatelessWidget {
       Navigator.of(context).pop();
       showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
-              title: const Text('Insufficient Allowance'),
-              content: const Text("You don't have enough allowance"),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(),
-                    child: const Text('Ok'))
-              ],
-            ),
+        builder: (ctx) => AlertDialog(
+          title: const Text('Insufficient Allowance'),
+          content: const Text("You don't have enough allowance"),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Ok'))
+          ],
+        ),
       );
-    }
-    else {
+    } else {
       await db.deleteAllowance(id: id);
       await db.updateUserAllowance(totalAllowance);
       refresh();
@@ -99,33 +102,68 @@ class AllowanceList extends StatelessWidget {
     final recentAllowances = allowances.toList()
       ..sort((a, b) => b.dateTime.compareTo(a.dateTime));
 
-
     return Expanded(
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Your Allowance: '),
+              TitleText(
+                  words: 'Your Allowance:  ',
+                  size: 24,
+                  fontWeight: FontWeight.w800),
               UserAllowance(),
             ],
           ),
-          Divider(height: 4, color: Colors.blue.shade800,),
+          SizedBox(
+            height: 8,
+          ),
+          Divider(
+            height: 4,
+            color: Colors.blue.shade800,
+          ),
+          SizedBox(
+            height: 8,
+          ),
           Expanded(
             child: ListView.builder(
               itemCount:
-              recentAllowances.length < 3 ? recentAllowances.length : 3,
+                  recentAllowances.length < 3 ? recentAllowances.length : 3,
               itemBuilder: (ctx, index) => ListTile(
                 title: GestureDetector(
                   onLongPress: () => showDialog<void>(
                     context: context,
                     builder: (BuildContext dialogContext) {
                       return AlertDialog(
-                        title: Text('Delete Item'),
+                        title: Text(
+                          'DELETE ITEM',
+                          textAlign: TextAlign.center,
+                        ),
                         content: SizedBox(
                           width: MediaQuery.sizeOf(context).width - 200,
-                          height: MediaQuery.sizeOf(context).height * .3,
-                          child: Center(child: Text('Are you sure?')),
+                          height: 300,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  'assets/images/delete-item.png',
+                                  width: 250,
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
+                                Expanded(
+                                    child: SecondaryText(
+                                  words:
+                                      'Are you sure you want to delete ${recentAllowances[index].description}?',
+                                  size: 24,
+                                  maxLines: 2,
+                                )),
+                              ],
+                            ),
+                          ),
                         ),
                         actions: <Widget>[
                           TextButton(
@@ -136,7 +174,11 @@ class AllowanceList extends StatelessWidget {
                             },
                           ),
                           ElevatedButton(
-                              onPressed: () => _deleteItem(context, recentAllowances[index].amount, recentAllowances[index].id), child: Text('Yes'))
+                              onPressed: () => _deleteItem(
+                                  context,
+                                  recentAllowances[index].amount,
+                                  recentAllowances[index].id),
+                              child: Text('Yes'))
                         ],
                       );
                     },
@@ -163,12 +205,19 @@ class AllowanceList extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(recentAllowances[index].description),
+                              TitleText(
+                                  words: recentAllowances[index].description,
+                                  size: 20,
+                                  fontWeight: FontWeight.w500),
                               const SizedBox(
                                 width: 4,
                               ),
-                              Text(DateFormat.yMMMd()
-                                  .format(recentAllowances[index].dateTime))
+                              SecondaryText(
+                                words: DateFormat.yMMMd()
+                                    .format(recentAllowances[index].dateTime),
+                                size: 16,
+                                maxLines: 1,
+                              )
                             ],
                           ),
                         ],
@@ -176,13 +225,17 @@ class AllowanceList extends StatelessWidget {
                       const SizedBox(
                         height: 8,
                       ),
-                      Divider(height: 1, color: Colors.blue.shade600,)
+                      Divider(
+                        height: 1,
+                        color: Colors.blue.shade600,
+                      )
                     ],
                   ),
                 ),
-                trailing: Text(
-                  "${user.currency} ${recentAllowances[index].amount}",
-                  style: const TextStyle(fontSize: 16),
+                trailing: TitleText(
+                    words: "${user.currency} ${recentAllowances[index].amount}",
+                    size: 16,
+                    fontWeight: FontWeight.bold,
                 ),
               ),
             ),

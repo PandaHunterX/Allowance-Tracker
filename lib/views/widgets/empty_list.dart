@@ -1,5 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 
 class ExpenseEmptyList extends StatelessWidget {
   const ExpenseEmptyList({super.key});
@@ -18,10 +18,11 @@ class ExpenseEmptyList extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          const AutoSizeText(
-            "YOU DIDN'T SPEND ANYTHING TODAY",
-            style: TextStyle(fontSize: 20),
-          )
+          const SecondaryText(
+              words: "YOU DIDN'T SPEND ANYTHING TODAY",
+              size: 24,
+              maxLines: 1,
+          ),
         ],
       ),
     );
@@ -44,9 +45,10 @@ class AllowanceEmptyList extends StatelessWidget {
                 width: MediaQuery.of(context).size.width - 64,
                 height: MediaQuery.of(context).size.height * .2,
               ),
-              const Text(
-                "YOU HAVE NO ALLOWANCE YET",
-                style: TextStyle(fontSize: 20),
+              const SecondaryText(
+                words: "YOU HAVE NO ALLOWANCE YET",
+                size: 24,
+                maxLines: 1,
               ),
             ],
           ),

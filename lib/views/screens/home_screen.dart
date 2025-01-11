@@ -1,8 +1,8 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:productivity_app/controllers/new_expense.dart';
 import 'package:productivity_app/styles/buttons.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 import 'package:productivity_app/views/widgets/expenses_list.dart';
 import 'package:productivity_app/views/widgets/user_allowance.dart';
 
@@ -36,15 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Expanded(
-                      child: AutoSizeText(
-                          'Your Allowance',
-                          style: TextStyle(fontSize: 36),
-                        minFontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
+                    SizedBox(
+                      height: 50,
+                      child: TitleText(words: 'Your Allowance', size: 32, fontWeight: FontWeight.w300,)
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,10 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   vertical: BorderSide.none,
                 ),
               ),
-              child: const AutoSizeText(
-                'Your Expenses Today',
-                style: TextStyle(fontSize: 30),
-              ),
+              child: TitleText(words: 'Your Expenses Today', size: 24, fontWeight: FontWeight.w600)
             ),
             const SizedBox(height: 8,),
             ExpensesList(key: UniqueKey(), refresh: _refresh,),

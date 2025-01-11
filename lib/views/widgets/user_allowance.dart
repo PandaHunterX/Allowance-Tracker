@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 import '../../database/finance_db.dart';
 import '../../models/user.dart';
 
@@ -32,17 +33,17 @@ class _UserAllowanceState extends State<UserAllowance> {
     return Row(
       children: [
         AutoSizeText(
-          user?.currency ?? 'Loading',
-          style: TextStyle(fontSize: 16),
+          user?.currency ?? '...',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           width: 8,
         ),
-        AutoSizeText(
-          user?.allowance.toString() ?? 'Loading',
-          style: TextStyle(fontSize: 16),
-        ),
+        SecondaryText(words: user?.allowance.toString() ?? '...', size: 24, maxLines: 1)
       ],
     );
   }
 }
+
+//user?.currency ?? 'Loading',
+//user?.allowance.toString() ?? 'Loading',

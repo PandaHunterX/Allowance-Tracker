@@ -4,6 +4,8 @@ import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/allowance_item.dart';
 import 'package:productivity_app/models/expense_item.dart';
 import 'package:intl/intl.dart';
+import 'package:productivity_app/models/user.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 
 class RecentDataList extends StatefulWidget {
   final String searchQuery;
@@ -19,6 +21,7 @@ class _RecentDataListState extends State<RecentDataList> {
   bool _isLoading = true;
   bool _isLoadingMore = false;
   int _currentPage = 1;
+  User? user;
   final int _itemsPerPage = 10;
   final ScrollController _scrollController = ScrollController();
 
@@ -39,11 +42,13 @@ class _RecentDataListState extends State<RecentDataList> {
     final db = FinanceDB();
     final fetchedAllowances = await db.fetchAllowance();
     final fetchedExpenses = await db.fetchExpense();
+    var fetchedUser = await db.fetchUser();
 
     setState(() {
       recentData = [...fetchedAllowances, ...fetchedExpenses];
       recentData.sort((a, b) => b.dateTime.compareTo(a.dateTime));
       _isLoading = false;
+      user = fetchedUser;
     });
   }
 
@@ -106,26 +111,44 @@ class _RecentDataListState extends State<RecentDataList> {
                 SizedBox(
                   width: 4,
                 ),
-                Expanded(child: AutoSizeText(maxLines: 1, 'Allowance: ${item.description}')),
+                Expanded(child: TitleText(words: 'Allowance: ${item.description}', size: 16, fontWeight: FontWeight.w600)),
               ],
             ),
-            subtitle: Text('Amount: ++ Php ${item.amount}'),
-            trailing: Text(DateFormat.yMMMd().format(item.dateTime)),
+            subtitle: Row(
+              children: [
+                SecondaryText(words: 'Amount: ', size: 16, maxLines: 1),
+                AutoSizeText(
+                  "++ ${user?.currency}" ?? '...',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SecondaryText(words: '${item.amount}', size: 16, maxLines: 1),
+              ],
+            ),
+            trailing: TitleText(words: DateFormat.yMMMd().format(item.dateTime), size: 16, fontWeight: FontWeight.w600),
           );
         } else if (item is ExpenseItem) {
           return ListTile(
-            textColor: Colors.red.shade900,
+            textColor: Colors.redAccent,
             title: Row(
               children: [
                 item.category.icon,
                 SizedBox(
                   width: 4,
                 ),
-                Text('Expense: ${item.name}'),
+                Expanded(child: TitleText(words: 'Expense: ${item.name}', size: 16, fontWeight: FontWeight.w600)),
               ],
             ),
-            subtitle: Text('Amount: -- Php ${item.expense}'),
-            trailing: Text(DateFormat.yMMMd().format(item.dateTime)),
+            subtitle: Row(
+              children: [
+                SecondaryText(words: 'Amount: ', size: 16, maxLines: 1),
+                AutoSizeText(
+                  "-- ${user?.currency}" ?? '...',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                SecondaryText(words: '${item.expense}', size: 16, maxLines: 1),
+              ],
+            ),
+            trailing: TitleText(words: DateFormat.yMMMd().format(item.dateTime), size: 16, fontWeight: FontWeight.w600),
           );
         }
         return const SizedBox.shrink();

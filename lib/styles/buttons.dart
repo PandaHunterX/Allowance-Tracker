@@ -1,5 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/styles/textstyle.dart';
 
 class CustomizeButton extends StatelessWidget {
   final IconData icon;
@@ -12,7 +12,7 @@ class CustomizeButton extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * .5,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue.shade800, width: 2),
+        border: Border.all(color: Colors.blue.shade800, width: 5),
         borderRadius: const BorderRadius.all(Radius.circular(32)),
       ),
       child: Row(
@@ -26,15 +26,7 @@ class CustomizeButton extends StatelessWidget {
           const SizedBox(
             width: 8,
           ),
-          AutoSizeText(
-            maxLines: 1,
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
+          TitleText(words: text, size: 20, fontWeight: FontWeight.w800)
         ],
       ),
     );

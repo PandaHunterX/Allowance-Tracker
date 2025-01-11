@@ -53,90 +53,101 @@ class _NewAllowanceState extends State<NewAllowance> {
       appBar: AppBar(
         title: const Text('Add Allowance'),
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: descriptionController,
-              maxLength: 20,
-              decoration: const InputDecoration(label: Text('Description')),
-              validator: (value) {
-                if (value == null ||
-                    value.isEmpty ||
-                    value.trim().length <= 1 ||
-                    value.trim().length > 50) {
-                  return 'Must be between 1 and 50 characters';
-                }
-                return null;
-              },
-              onSaved: (value) {
-                _enteredDescription = value!;
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            TextFormField(
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              maxLength: 8,
-              decoration: const InputDecoration(label: Text('Amount')),
-              validator: (value) {
-                if (value == null ||
-                    value.isEmpty ||
-                    double.tryParse(value) == null ||
-                    double.tryParse(value)! <= 0) {
-                  return 'Must be a positive number';
-                }
-                return null;
-              },
-              onSaved: (value) {
-                _enteredAmount = double.parse(value!);
-              },
-            ),
-            DropdownButtonFormField(
-                value: _selectedCategory,
-                items: [
-                  for (final category in allowance_categories.entries)
-                    DropdownMenuItem(
-                        value: category.value,
-                        child: Row(
-                          children: [
-                            category.value.icon,
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(category.value.title)
-                          ],
-                        ))
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/man-withdraw.png',
+                width: MediaQuery.sizeOf(context).width * .7,
+                height: MediaQuery.viewInsetsOf(context).bottom > 0
+                    ? MediaQuery.sizeOf(context).height * .25
+                    : MediaQuery.sizeOf(context).height * .35
+                ,
+              ),
+              TextFormField(
+                controller: descriptionController,
+                maxLength: 20,
+                decoration: const InputDecoration(label: Text('Description')),
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      value.trim().length <= 1 ||
+                      value.trim().length > 50) {
+                    return 'Must be between 1 and 50 characters';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _enteredDescription = value!;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              TextFormField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                maxLength: 8,
+                decoration: const InputDecoration(label: Text('Amount')),
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      double.tryParse(value) == null ||
+                      double.tryParse(value)! <= 0) {
+                    return 'Must be a positive number';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _enteredAmount = double.parse(value!);
+                },
+              ),
+              DropdownButtonFormField(
+                  value: _selectedCategory,
+                  items: [
+                    for (final category in allowance_categories.entries)
+                      DropdownMenuItem(
+                          value: category.value,
+                          child: Row(
+                            children: [
+                              category.value.icon,
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(category.value.title)
+                            ],
+                          ))
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCategory = value!;
+                    });
+                  }),
+              const SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        _formKey.currentState!.reset();
+                      },
+                      child: const Text('Clear')),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButton(
+                    onPressed: _saveItem,
+                    child: const Text('Add Allowance'),
+                  )
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategory = value!;
-                  });
-                }),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      _formKey.currentState!.reset();
-                    },
-                    child: const Text('Clear')),
-                const SizedBox(
-                  width: 8,
-                ),
-                ElevatedButton(
-                  onPressed: _saveItem,
-                  child: const Text('Add Allowance'),
-                )
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

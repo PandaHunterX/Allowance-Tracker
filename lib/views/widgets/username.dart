@@ -5,8 +5,9 @@ import '../../database/finance_db.dart';
 import '../../models/user.dart';
 
 class Username extends StatefulWidget {
+  final TextAlign textAlign;
   const Username({
-    super.key,
+    super.key, required this.textAlign,
   });
 
   @override
@@ -32,11 +33,13 @@ class _UsernameState extends State<Username> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AutoSizeText(
-        user?.username ?? 'Loading...',
-        maxLines: 1,
-        style: const TextStyle(fontSize: 32),
+    return AutoSizeText(
+      textAlign: widget.textAlign,
+      user?.username ?? 'Loading...',
+      maxLines: 1,
+      style: const TextStyle(
+          fontSize: 32,
+        fontFamily: 'Signika Negative',
       ),
     );
   }
