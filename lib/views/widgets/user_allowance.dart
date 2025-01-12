@@ -32,7 +32,7 @@ class _UserAllowanceState extends State<UserAllowance> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AutoSizeText(
+        Text(
           user?.currency ?? '...',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),

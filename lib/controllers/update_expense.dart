@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productivity_app/views/widgets/insufficient_allowance.dart';
 
 import '../database/finance_db.dart';
 import '../models/categories.dart';
@@ -48,10 +49,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
   void _updateItem() async {
     final db = FinanceDB();
     final fetchUser = await db.fetchUser();
-    final fetchedExpenses = await db.fetchExpense();
     double totalAllowance = fetchUser.allowance;
-    double totalExpenses =
-    fetchedExpenses.fold(0.0, (sum, item) => sum + item.expense);
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -65,15 +63,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
         showDialog(
           context: context,
           builder: (ctx) =>
-              AlertDialog(
-                title: const Text('Insufficient Allowance'),
-                content: const Text("You don't have enough allowance"),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.of(ctx).pop(),
-                      child: const Text('Ok'))
-                ],
-              ),
+              InsufficientAllowance(ctx: ctx,),
         );
       } else {
         await db.updateExpense(
@@ -93,7 +83,7 @@ class _UpdateExpenseState extends State<UpdateExpense> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Change Expense'),
+      title: Text('Edit Expense Item'),
       content: Form(
         key: _formKey,
         child: Column(

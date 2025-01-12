@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:productivity_app/views/widgets/insufficient_allowance.dart';
 
 import '../database/finance_db.dart';
 import '../models/categories.dart';
@@ -49,10 +50,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
   void _updateItem() async {
     final db = FinanceDB();
     final fetchUser = await db.fetchUser();
-    final fetchedExpenses = await db.fetchExpense();
     double totalAllowance = fetchUser.allowance;
-    final totalExpenses =
-        fetchedExpenses.fold(0.0, (sum, item) => sum + item.expense);
 
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -62,17 +60,12 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
       } else if (widget.amount < enteredAmount) {
         totalAllowance += enteredAmount - widget.amount;
       }
-      if (totalExpenses > (totalAllowance + fetchUser.allowance)) {
+      if (0 > totalAllowance) {
         showDialog(
           context: context,
-          builder: (ctx) => AlertDialog(
-            title: const Text('Insufficient Allowance'),
-            content: const Text("You don't have enough allowance"),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Ok'))
-            ],
+          builder: (ctx) =>
+              InsufficientAllowance(
+            ctx: ctx,
           ),
         );
       } else {
@@ -93,7 +86,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Change Allowance'),
+      title: Text('Edit Allowance Item'),
       content: SizedBox(
         width: MediaQuery.sizeOf(context).width - 200,
         child: Form(
@@ -103,7 +96,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
             children: [
               TextFormField(
                 controller: descriptionController,
-                maxLength: 30,
+                maxLength: 25,
                 decoration: const InputDecoration(label: Text('Description')),
                 validator: (value) {
                   if (value == null ||
@@ -170,7 +163,11 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
                   ),
                   ElevatedButton(
                     onPressed: _updateItem,
-                    child: const AutoSizeText('Update Allowance', maxLines: 1,style: TextStyle(fontSize: 1),),
+                    child: const AutoSizeText(
+                      'Update Allowance',
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 1),
+                    ),
                   )
                 ],
               ),

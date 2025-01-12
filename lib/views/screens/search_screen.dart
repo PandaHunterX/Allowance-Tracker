@@ -1,7 +1,9 @@
+// lib/views/screens/search_screen.dart
 import 'package:flutter/material.dart';
 import 'package:productivity_app/styles/textstyle.dart';
 import '../../controllers/search_bar.dart';
 import '../widgets/recent_data.dart';
+import '../widgets/date_sorting.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,10 +14,17 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String _searchQuery = '';
+  String _selectedMonth = 'All';
 
   void _updateSearchQuery(String query) {
     setState(() {
       _searchQuery = query;
+    });
+  }
+
+  void _onMonthSelected(String month) {
+    setState(() {
+      _selectedMonth = month;
     });
   }
 
@@ -24,9 +33,15 @@ class _SearchScreenState extends State<SearchScreen> {
     return Column(
       children: [
         CustomSearchBar(onSearch: _updateSearchQuery),
-        TitleText(words: 'Your Transaction History', size: 24, fontWeight: FontWeight.w800),
+        TitleText(
+            words: 'Your Transaction History',
+            size: 24,
+            fontWeight: FontWeight.w800),
         Divider(),
-        Expanded(child: RecentDataList(searchQuery: _searchQuery)),
+        DateSorting(
+          onMonthSelected: _onMonthSelected,
+        ),
+        Expanded(child: RecentDataList(searchQuery: _searchQuery, selectedMonth: _selectedMonth)),
       ],
     );
   }

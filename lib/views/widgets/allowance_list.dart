@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:productivity_app/controllers/delete_item.dart';
 import 'package:productivity_app/database/finance_db.dart';
 import 'package:productivity_app/models/allowance_item.dart';
 import 'package:productivity_app/styles/textstyle.dart';
 import 'package:productivity_app/views/widgets/empty_list.dart';
+import 'package:productivity_app/views/widgets/insufficient_allowance.dart';
 import 'package:productivity_app/views/widgets/user_allowance.dart';
 import '../../controllers/update_allowance.dart';
 
@@ -72,22 +74,13 @@ class AllowanceList extends StatelessWidget {
   void _deleteItem(BuildContext context, amount, id) async {
     final db = FinanceDB();
     final fetchUser = await db.fetchUser();
-    final fetchedExpenses = await db.fetchExpense();
     double totalAllowance = fetchUser.allowance;
     totalAllowance -= amount;
     if (0 > totalAllowance) {
       Navigator.of(context).pop();
       showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Insufficient Allowance'),
-          content: const Text("You don't have enough allowance"),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Ok'))
-          ],
-        ),
+        builder: (ctx) => InsufficientAllowance(ctx: ctx)
       );
     } else {
       await db.deleteAllowance(id: id);
@@ -129,72 +122,32 @@ class AllowanceList extends StatelessWidget {
             child: ListView.builder(
               itemCount:
                   recentAllowances.length < 3 ? recentAllowances.length : 3,
-              itemBuilder: (ctx, index) => ListTile(
-                title: GestureDetector(
-                  onLongPress: () => showDialog<void>(
+              itemBuilder: (ctx, index) => GestureDetector(
+                onLongPress: () => showDialog<void>(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return DeleteItem(
+                        item: recentAllowances[index].description,
+                        delete: () => _deleteItem(
+                            context,
+                            recentAllowances[index].amount,
+                            recentAllowances[index].id),
+                        context: dialogContext);
+                  },
+                ),
+                onDoubleTap: () => showDialog(
                     context: context,
-                    builder: (BuildContext dialogContext) {
-                      return AlertDialog(
-                        title: Text(
-                          'DELETE ITEM',
-                          textAlign: TextAlign.center,
-                        ),
-                        content: SizedBox(
-                          width: MediaQuery.sizeOf(context).width - 200,
-                          height: 300,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/images/delete-item.png',
-                                  width: 250,
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Expanded(
-                                    child: SecondaryText(
-                                  words:
-                                      'Are you sure you want to delete ${recentAllowances[index].description}?',
-                                  size: 24,
-                                  maxLines: 2,
-                                )),
-                              ],
-                            ),
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('No'),
-                            onPressed: () {
-                              Navigator.of(dialogContext)
-                                  .pop(); // Dismiss alert dialog
-                            },
-                          ),
-                          ElevatedButton(
-                              onPressed: () => _deleteItem(
-                                  context,
-                                  recentAllowances[index].amount,
-                                  recentAllowances[index].id),
-                              child: Text('Yes'))
-                        ],
+                    builder: (BuildContext context) {
+                      return UpdateAllowance(
+                        id: recentAllowances[index].id,
+                        description: recentAllowances[index].description,
+                        amount: recentAllowances[index].amount,
+                        category: recentAllowances[index].category,
+                        allowanceUpdate: refresh,
                       );
-                    },
-                  ),
-                  onDoubleTap: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return UpdateAllowance(
-                          id: recentAllowances[index].id,
-                          description: recentAllowances[index].description,
-                          amount: recentAllowances[index].amount,
-                          category: recentAllowances[index].category,
-                          allowanceUpdate: refresh,
-                        );
-                      }),
-                  child: Column(
+                    }),
+                child: ListTile(
+                  title: Column(
                     children: [
                       Row(
                         children: [
@@ -231,11 +184,11 @@ class AllowanceList extends StatelessWidget {
                       )
                     ],
                   ),
-                ),
-                trailing: TitleText(
+                  trailing: TitleText(
                     words: "${user.currency} ${recentAllowances[index].amount}",
                     size: 16,
                     fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
