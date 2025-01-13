@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/styles/textstyle.dart';
+import 'package:productivity_app/styles/text_style.dart';
 
 class CustomizeButton extends StatelessWidget {
   final IconData icon;

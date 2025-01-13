@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:productivity_app/controllers/new_expense.dart';
+import 'package:productivity_app/controllers/expense%20controllers/new_expense.dart';
 import 'package:productivity_app/styles/buttons.dart';
-import 'package:productivity_app/styles/textstyle.dart';
-import 'package:productivity_app/views/widgets/expenses_list.dart';
-import 'package:productivity_app/views/widgets/user_allowance.dart';
+import 'package:productivity_app/styles/text_style.dart';
+import 'package:productivity_app/views/widgets/expenses%20widgets/expenses_list.dart';
+import 'package:productivity_app/views/widgets/user%20widgets/user_allowance.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

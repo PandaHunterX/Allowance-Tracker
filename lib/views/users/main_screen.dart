@@ -1,5 +1,5 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/styles/textstyle.dart';
 import 'package:productivity_app/views/screens/home_screen.dart';
 import 'package:productivity_app/views/users/user_screen.dart';
 
@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _page_index = 0;
+  int pageIndex = 0;
 
   final List<Widget> _pages = [
     const HomeScreen(),
@@ -28,13 +28,27 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
-        title: TitleText(
-            words: 'Finance Buddy',
-            size: 48,
-            fontWeight: FontWeight.bold,
+        toolbarHeight: 80,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/icon.png',
+              width: 100,
+            ),
+            Expanded(
+              child: AutoSizeText(
+                'Pocket Wallet',
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: 42,
+                  fontFamily: 'Sriracha',
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.blue.shade300,
-        centerTitle: true,
       ),
       bottomNavigationBar: Container(
         height: MediaQuery.sizeOf(context).height * .12,
@@ -57,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
               topRight: Radius.circular(64),
             ),
             child: BottomNavigationBar(
-              currentIndex: _page_index,
+              currentIndex: pageIndex,
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.blue.shade50,
               iconSize: MediaQuery.of(context).size.width * 0.1,
@@ -80,7 +94,7 @@ class _MainScreenState extends State<MainScreen> {
               showSelectedLabels: true,
               onTap: (value) {
                 setState(() {
-                  _page_index = value;
+                  pageIndex = value;
                 });
               },
               items: const [
@@ -94,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
             )),
       ),
-      body: _pages[_page_index],
+      body: _pages[pageIndex],
     );
   }
 }

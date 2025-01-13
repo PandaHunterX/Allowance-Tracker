@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:productivity_app/styles/textstyle.dart';
-import 'package:productivity_app/views/widgets/pie_graph.dart';
-import 'package:productivity_app/views/widgets/profile_picture.dart';
-import 'package:productivity_app/views/widgets/total_data.dart';
-import 'package:productivity_app/views/widgets/user_allowance.dart';
-import 'package:productivity_app/views/widgets/username.dart';
+import 'package:productivity_app/styles/text_style.dart';
+import 'package:productivity_app/views/widgets/stats%20widgets/pie_graph.dart';
+import 'package:productivity_app/views/widgets/user%20widgets/profile_picture.dart';
+import 'package:productivity_app/views/widgets/stats%20widgets/total_data.dart';
+import 'package:productivity_app/views/widgets/user%20widgets/user_allowance.dart';
+import 'package:productivity_app/views/widgets/user%20widgets/username.dart';
 
 class GraphScreen extends StatelessWidget {
   const GraphScreen({super.key});

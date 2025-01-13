@@ -1,9 +1,9 @@
 // lib/views/screens/search_screen.dart
 import 'package:flutter/material.dart';
-import 'package:productivity_app/styles/textstyle.dart';
-import '../../controllers/search_bar.dart';
-import '../widgets/recent_data.dart';
-import '../widgets/date_sorting.dart';
+import 'package:productivity_app/styles/text_style.dart';
+import '../../controllers/data controller/search_bar.dart';
+import '../widgets/search widgets/recent_data.dart';
+import '../widgets/search widgets/date_sorting.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

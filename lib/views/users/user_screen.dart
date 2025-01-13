@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:productivity_app/controllers/new_allowance.dart';
+import 'package:productivity_app/controllers/allowance%20controllers/new_allowance.dart';
 import 'package:productivity_app/views/screens/settings.dart';
 import 'package:productivity_app/styles/buttons.dart';
-import 'package:productivity_app/views/widgets/allowance_list.dart';
+import 'package:productivity_app/views/widgets/allowance%20widgets/allowance_list.dart';
 
-import '../widgets/profile_picture.dart';
-import '../widgets/username.dart';
+import '../widgets/user widgets/profile_picture.dart';
+import '../widgets/user widgets/username.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});

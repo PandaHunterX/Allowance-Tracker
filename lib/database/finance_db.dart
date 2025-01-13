@@ -1,12 +1,12 @@
 import 'package:productivity_app/database/database_service.dart';
-import 'package:productivity_app/models/allowance_item.dart';
-import 'package:productivity_app/models/user.dart';
+import 'package:productivity_app/models/item%20model/allowance_item.dart';
+import 'package:productivity_app/models/user%20model/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 
-import '../models/category.dart';
-import '../models/expense_item.dart';
-import '../models/categories.dart';
+import '../models/category model/category.dart';
+import '../models/item model/expense_item.dart';
+import '../models/category model/categories.dart';
 
 const uuid = Uuid();
 
