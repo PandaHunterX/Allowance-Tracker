@@ -22,29 +22,59 @@ class GraphScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      ProfilePicture(size: 35,),
-                      SizedBox(width: 16,),
+                      ProfilePicture(
+                        size: 35,
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
                       Expanded(
-                          child: Username(textAlign: TextAlign.start,))
+                          child: Username(
+                        textAlign: TextAlign.start,
+                      ))
                     ],
                   ),
-                  SizedBox(height: 8,),
-                  Row(
-                    children: [
-                      TitleText(words: 'Remaining Allowance: ', size: 20, fontWeight: FontWeight.w600,),
-                      SizedBox(width: 8,),
-                      UserAllowance(),
-                    ],
+                  SizedBox(
+                    height: 8,
                   ),
-                  Divider(height: 2, color: Colors.blue.shade900,)
+                  SizedBox(
+                    height: 32,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: TitleText(
+                          words: 'Remaining Allowance: ',
+                          size: 20,
+                          fontWeight: FontWeight.w600,
+                        )),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(child: UserAllowance()),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    height: 2,
+                    color: Colors.blue.shade900,
+                  )
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             TotalData(),
-            SizedBox(height: 20,),
-            Divider(height: 2, color: Colors.blue.shade900,),
-            SizedBox(height: 32,),
+            SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 2,
+              color: Colors.blue.shade900,
+            ),
+            SizedBox(
+              height: 32,
+            ),
             PieGraph(),
           ],
         ),

@@ -96,7 +96,7 @@ class _UpdateAllowanceState extends State<UpdateAllowance> {
             children: [
               TextFormField(
                 controller: descriptionController,
-                maxLength: 25,
+                maxLength: 20,
                 decoration: const InputDecoration(label: Text('Description')),
                 validator: (value) {
                   if (value == null ||

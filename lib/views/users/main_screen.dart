@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
         toolbarHeight: 80,
@@ -51,7 +52,9 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.blue.shade300,
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.sizeOf(context).height * .12,
+        height: MediaQuery.sizeOf(context).width > 700
+            ? MediaQuery.sizeOf(context).height * .15
+            : MediaQuery.sizeOf(context).height * .12,
         decoration: BoxDecoration(
           color: Colors.transparent,
           // Matches the BottomNavigationBar background

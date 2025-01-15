@@ -6,13 +6,14 @@ class TitleText extends StatelessWidget {
   final double size;
   final FontWeight fontWeight;
 
+
   const TitleText({required this.words, required this.size, super.key, required this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
       words,
-      minFontSize: 12,
+      minFontSize: 4,
       style: TextStyle(
           fontWeight: fontWeight,
           fontSize: size,
@@ -31,7 +32,7 @@ class SecondaryText extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoSizeText(
       words,
-      minFontSize: 8,
+      minFontSize: 4,
       maxLines: maxLines,
       style: TextStyle(
           fontSize: size,

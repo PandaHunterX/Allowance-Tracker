@@ -63,7 +63,7 @@ class _NewAllowanceState extends State<NewAllowance> {
                 'assets/images/man-withdraw.png',
                 width: MediaQuery.sizeOf(context).width * .7,
                 height: MediaQuery.viewInsetsOf(context).bottom > 0
-                    ? MediaQuery.sizeOf(context).height * .25
+                    ? MediaQuery.sizeOf(context).height * .15
                     : MediaQuery.sizeOf(context).height * .35
                 ,
               ),

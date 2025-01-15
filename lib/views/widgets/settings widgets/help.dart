@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 class Help extends StatelessWidget {
   final BuildContext ctx;
 
-  const Help({required this.ctx,super.key});
+  const Help({required this.ctx, super.key});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('FAQs', style: TextStyle(fontSize: 24),),
+      title: const Text(
+        'FAQs',
+        style: TextStyle(fontSize: 24),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -19,39 +22,39 @@ class Help extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          const Text(
+          Text(
             "How to Edit an Item?",
             style: TextStyle(
-              fontSize: 24,
+              fontSize: MediaQuery.sizeOf(context).width < 412? 20 : 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(
             height: 8,
           ),
-          const Text(
+          Text(
             "Simply double-tap on an item to edit any fields you'd like.",
             style: TextStyle(
-              fontSize: 20,
+              fontSize:  MediaQuery.sizeOf(context).width < 412? 16 : 20,
             ),
           ),
           SizedBox(
             height: 16,
           ),
-          const Text(
+          Text(
             "How to Delete an Item?",
             style: TextStyle(
-              fontSize: 24,
+              fontSize: MediaQuery.sizeOf(context).width < 412? 20 : 24,
               fontWeight: FontWeight.bold,
             ),
           ),
           SizedBox(
             height: 8,
           ),
-          const Text(
+          Text(
             "Long press on an item and then tap 'Yes' to delete.",
             style: TextStyle(
-              fontSize: 20,
+              fontSize: MediaQuery.sizeOf(context).width < 412? 16 : 20,
             ),
           ),
         ],

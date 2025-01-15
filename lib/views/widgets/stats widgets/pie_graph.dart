@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:productivity_app/database/finance_db.dart';
@@ -38,15 +39,21 @@ class _PieGraphState extends State<PieGraph> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TitleText(words: 'Your Category Data', size: 32, fontWeight: FontWeight.w500,),
-        SizedBox(height: 16,),
+        TitleText(
+          words: 'Your Category Data',
+          size: 32,
+          fontWeight: FontWeight.w500,
+        ),
+        SizedBox(
+          height: 16,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               width: MediaQuery.sizeOf(context).width * .4,
-              height: MediaQuery.sizeOf(context).width * .1,
+              height: MediaQuery.sizeOf(context).height * .05,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.blue.shade900, width: 2),
@@ -58,7 +65,8 @@ class _PieGraphState extends State<PieGraph> {
                       horizontal: VisualDensity.minimumDensity,
                       vertical: VisualDensity.minimumDensity),
                   activeColor: Colors.blue.shade900,
-                  title: TitleText(words: 'EXPENSE', size: 20, fontWeight: FontWeight.w700),
+                  title: TitleText(
+                      words: 'EXPENSE', size: 20, fontWeight: FontWeight.w700),
                   value: 'Expense',
                   groupValue: _selectedType,
                   onChanged: (value) {
@@ -70,10 +78,12 @@ class _PieGraphState extends State<PieGraph> {
                 ),
               ),
             ),
-            SizedBox(width: 8,),
+            SizedBox(
+              width: 8,
+            ),
             SizedBox(
               width: MediaQuery.sizeOf(context).width * .45,
-              height: MediaQuery.sizeOf(context).width * .1,
+              height: MediaQuery.sizeOf(context).height * .05,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.blue.shade900, width: 2),
@@ -85,7 +95,10 @@ class _PieGraphState extends State<PieGraph> {
                       horizontal: VisualDensity.minimumDensity,
                       vertical: VisualDensity.minimumDensity),
                   activeColor: Colors.blue.shade900,
-                  title: TitleText(words: 'ALLOWANCE', size: 20, fontWeight: FontWeight.w700),
+                  title: TitleText(
+                      words: 'ALLOWANCE',
+                      size: 20,
+                      fontWeight: FontWeight.w700),
                   value: 'Allowance',
                   groupValue: _selectedType,
                   onChanged: (value) {
@@ -99,7 +112,9 @@ class _PieGraphState extends State<PieGraph> {
             ),
           ],
         ),
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         FutureBuilder<List<dynamic>>(
           future: _dataFuture,
           builder: (context, snapshot) {
@@ -120,14 +135,10 @@ class _PieGraphState extends State<PieGraph> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.blue.shade900, width: 4),
-                        borderRadius: BorderRadius.all(Radius.circular(32))
-                      ),
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * .25,
+                          border:
+                              Border.all(color: Colors.blue.shade900, width: 4),
+                          borderRadius: BorderRadius.all(Radius.circular(32))),
+                      height: MediaQuery.of(context).size.height * .25,
                       child: PieChart(
                         PieChartData(
                           sections: _generatePieChartSections(categoryData),
@@ -161,7 +172,7 @@ class _PieGraphState extends State<PieGraph> {
 
       categoryData.update(
         category,
-            (value) => value + amount,
+        (value) => value + amount,
         ifAbsent: () => amount,
       );
     }
@@ -181,7 +192,7 @@ class _PieGraphState extends State<PieGraph> {
           color: _getCategoryColor(category),
           value: percentage,
           title: '${percentage.toStringAsFixed(1)}%',
-          radius: 100,
+          radius: MediaQuery.sizeOf(context).width < 412 ? 80 : 100,
           titleStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -279,48 +290,64 @@ class _PieGraphState extends State<PieGraph> {
         children: [
           TitleText(words: 'Legend', size: 24, fontWeight: FontWeight.w600),
           SizedBox(height: 16),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2.5,
-            ),
-            itemCount: categoryData.keys.length,
-            itemBuilder: (context, index) {
-              final category = categoryData.keys.elementAt(index);
-              final icon = _getCategoryIcon(category);
-              final color = _getCategoryColor(category);
-              final totalAmount = categoryData[category]!;
-              return Container(
-                decoration: BoxDecoration(
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: MediaQuery.sizeOf(context).width < 412 ? 1.8 : 2.3,
+              ),
+              itemCount: categoryData.keys.length,
+              itemBuilder: (context, index) {
+                final category = categoryData.keys.elementAt(index);
+                final icon = _getCategoryIcon(category);
+                final color = _getCategoryColor(category);
+                final totalAmount = categoryData[category]!;
+                return Container(
+                  decoration: BoxDecoration(
                     color: color.withOpacity(0.05),
                     border: Border.all(color: color, width: 2),
-                borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    icon,
-                    SizedBox(width: 8),
-                    Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleText(words: category, size: 20, fontWeight: FontWeight.w400),
-                          Text('Total: ${totalAmount.toStringAsFixed(2)}', style: TextStyle(color: color, fontSize: 16),
-                            overflow: TextOverflow.ellipsis)
-                        ],
-                      ),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        icon,
+                        SizedBox(width: 8),
+                        Flexible(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AutoSizeText(
+                                category,
+                                style: TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.bold),
+                                minFontSize: 8,
+                                maxLines: 1,
+                              ),
+                              AutoSizeText(
+                                'Total: ${totalAmount.toStringAsFixed(2)}',
+                                style: TextStyle(color: color, fontSize: 16),
+                                minFontSize: 8,
+                                maxLines: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),

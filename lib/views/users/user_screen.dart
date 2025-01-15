@@ -30,9 +30,9 @@ class _UserScreenState extends State<UserScreen> {
           Center(
             child: ProfilePicture(
               key: UniqueKey(),
-              size: MediaQuery.sizeOf(context).width <= 1280
-                  ? MediaQuery.sizeOf(context).width * .2
-                  : MediaQuery.sizeOf(context).width * .1,
+              size: MediaQuery.sizeOf(context).width > 700
+                  ? MediaQuery.sizeOf(context).width * .12
+                  : MediaQuery.sizeOf(context).width * .2,
             ),
           ),
           const SizedBox(
@@ -68,7 +68,7 @@ class _UserScreenState extends State<UserScreen> {
             color: Colors.blue,
           ),
           const SizedBox(
-            height: 20,
+            height: 16,
           ),
           InkWell(
             onTap: () {
@@ -79,7 +79,7 @@ class _UserScreenState extends State<UserScreen> {
             },
             child: Container(
               width: MediaQuery.sizeOf(context).width * .45,
-              height: MediaQuery.sizeOf(context).height * .06,
+              height: MediaQuery.sizeOf(context).height * .05,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(60)),
                   border: Border.all(width: 4, color: Colors.blue.shade600)),
@@ -94,7 +94,7 @@ class _UserScreenState extends State<UserScreen> {
                     child: AutoSizeText(
                       textAlign: TextAlign.center,
                       'Add Allowance',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

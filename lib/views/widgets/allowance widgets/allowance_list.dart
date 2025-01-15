@@ -100,12 +100,13 @@ class AllowanceList extends StatelessWidget {
 
     return Expanded(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TitleText(
-                  words: 'Remaining Allowance:  ',
+                  words: 'Total:  ',
                   size: 24,
                   fontWeight: FontWeight.w800),
               UserAllowance(),
@@ -150,6 +151,21 @@ class AllowanceList extends StatelessWidget {
                       );
                     }),
                 child: ListTile(
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SecondaryText(
+                        words: DateFormat.yMMMd()
+                            .format(recentAllowances[index].dateTime),
+                        size: 16,
+                        maxLines: 1,
+                      ),
+                      Divider(
+                        height: 1,
+                        color: Colors.blue.shade600,
+                      ),
+                    ],
+                  ),
                   title: Column(
                     children: [
                       Row(
@@ -158,33 +174,20 @@ class AllowanceList extends StatelessWidget {
                           const SizedBox(
                             width: 8,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TitleText(
-                                  words: recentAllowances[index].description,
-                                  size: 20,
-                                  fontWeight: FontWeight.w500),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              SecondaryText(
-                                words: DateFormat.yMMMd()
-                                    .format(recentAllowances[index].dateTime),
-                                size: 16,
-                                maxLines: 1,
-                              )
-                            ],
+                          Expanded(
+                            child: TitleText(
+                                words: recentAllowances[index].description,
+                                size: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            width: 4,
                           ),
                         ],
                       ),
                       const SizedBox(
                         height: 8,
                       ),
-                      Divider(
-                        height: 1,
-                        color: Colors.blue.shade600,
-                      )
                     ],
                   ),
                   trailing: Wrap(

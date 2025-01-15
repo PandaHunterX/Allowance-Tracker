@@ -63,25 +63,28 @@ class _SettingsState extends State<Settings> {
           children: [
             Center(
               child: SizedBox(
-                width: 220,
-                height: 220,
+                width: MediaQuery.sizeOf(context).width < 412 ? 120 : 220,
+                height: MediaQuery.sizeOf(context).width < 412 ? 120 : 220,
                 child: Stack(
                   children: [
                     ProfilePicture(
                       key: UniqueKey(),
-                      size: 100,
+                      size: MediaQuery.sizeOf(context).width < 412 ? 50 : 100,
                     ),
                     Container(
                       alignment: Alignment.bottomRight,
                       child: InkWell(
                         child: CircleAvatar(
                           backgroundColor: Colors.blue.shade200,
-                          radius: 30,
+                          radius:
+                              MediaQuery.sizeOf(context).width < 412 ? 20 : 30,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: SvgPicture.asset(
                               'assets/svg/camera.svg',
-                              width: 40,
+                              width: MediaQuery.sizeOf(context).width < 412
+                                  ? 20
+                                  : 40,
                             ),
                           ),
                         ),
@@ -103,37 +106,39 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             const SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Username(
-                  key: UniqueKey(),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(width: 16),
-                InkWell(
-                  child: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.blue.shade200,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        'assets/svg/pencil.svg',
-                        width: 30,
+            FittedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Username(
+                    key: UniqueKey(),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(width: 16),
+                  InkWell(
+                    child: CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.blue.shade200,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          'assets/svg/pencil.svg',
+                          width: 30,
+                        ),
                       ),
                     ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => UsernameForm(
+                          onUsernameChanged: widget.refreshed,
+                          refreshed: refresh,
+                        ),
+                      );
+                    },
                   ),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => UsernameForm(
-                        onUsernameChanged: widget.refreshed,
-                        refreshed: refresh,
-                      ),
-                    );
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 32),
             Divider(

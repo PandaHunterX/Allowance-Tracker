@@ -58,6 +58,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Add New Expense'),
       ),
@@ -71,7 +72,7 @@ class _NewExpenseState extends State<NewExpense> {
                 'assets/images/man-shopping.png',
                 width: MediaQuery.sizeOf(context).width * .7,
                 height: MediaQuery.viewInsetsOf(context).bottom > 0
-                    ? MediaQuery.sizeOf(context).height * .2
+                    ? MediaQuery.sizeOf(context).height * .15
                     : MediaQuery.sizeOf(context).height * .35,
               ),
               TextFormField(

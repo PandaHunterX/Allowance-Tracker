@@ -100,7 +100,7 @@ class ExpenseList extends StatelessWidget {
             children: [
               TitleText(
                   words: "Total Expenses: ",
-                  size: 32,
+                  size: 24,
                   fontWeight: FontWeight.w500),
               Text(
                 '${user.currency} ',
@@ -183,11 +183,11 @@ class ExpenseList extends StatelessWidget {
                       children: [
                         Text(
                           '${user.currency} ',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 16),
                         ),
                         TitleText(
                             words: "${todayExpenses[index].expense}",
-                            size: 24,
+                            size: 16,
                             fontWeight: FontWeight.w900),
                       ],
                     ),
