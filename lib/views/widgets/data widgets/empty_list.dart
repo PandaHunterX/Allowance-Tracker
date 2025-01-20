@@ -36,24 +36,22 @@ class AllowanceEmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Expanded(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/no_allowance.png',
-                  height: MediaQuery.sizeOf(context).width < 412
-                      ? MediaQuery.of(context).size.height * .15
-                      : MediaQuery.of(context).size.height * .35,
-                ),
-                const SecondaryText(
-                  words: "YOU HAVE NO ALLOWANCE YET",
-                  size: 24,
-                  maxLines: 1,
-                ),
-              ],
-            ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/images/no_allowance.png',
+                height: MediaQuery.sizeOf(context).width < 412
+                    ? MediaQuery.of(context).size.height * .15
+                    : MediaQuery.of(context).size.height * .35,
+              ),
+              const SecondaryText(
+                words: "YOU HAVE NO ALLOWANCE YET",
+                size: 24,
+                maxLines: 1,
+              ),
+            ],
           ),
         ),
       ),
